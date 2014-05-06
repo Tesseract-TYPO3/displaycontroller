@@ -59,10 +59,18 @@ class tx_displaycontroller_debugger implements t3lib_Singleton {
 		// Prepare CSS code based on t3skin, if loaded
 		if (t3lib_extMgm::isLoaded('t3skin')) {
 			$this->cssCode = t3lib_div::getUrl(t3lib_extMgm::extPath('displaycontroller') . 'Resources/Public/Styles/Debugger.css');
-			$this->cssCode .= t3lib_div::getUrl(t3lib_extMgm::extPath('t3skin') . 'stylesheets/visual/element_message.css');
+			$t3SkinPath = t3lib_extMgm::extPath('t3skin');
+			if (version_compare(TYPO3_branch, '6.2', '>=')) {
+				$messageSkinningFile = $t3SkinPath  . 'Resources/Public/Css/visual/element_message.css';
+				$pathToReplace = '../../../../icons';
+			} else {
+				$messageSkinningFile = $t3SkinPath  . 'stylesheets/visual/element_message.css';
+				$pathToReplace = '../../icons';
+			}
+			$this->cssCode .= t3lib_div::getUrl($messageSkinningFile);
 			// Adjust path to icons
 			$replacement = t3lib_div::locationHeaderUrl(TYPO3_mainDir . t3lib_extMgm::extRelPath('t3skin') . 'icons');
-			$this->cssCode = str_replace('../../icons', $replacement, $this->cssCode);
+			$this->cssCode = str_replace($pathToReplace, $replacement, $this->cssCode);
 		}
 		// Compatibility only for TYPO3 4.5, @see getMessageClass() below
 		if (strpos(TYPO3_version, '4.5') !== FALSE) {
