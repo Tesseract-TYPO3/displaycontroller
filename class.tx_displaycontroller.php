@@ -798,9 +798,10 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 	 */
 	protected function writeDebugOutput() {
 		$output = '';
-			// Output only if activated and if a BE user is logged in
-		if ($this->debugToOutput && isset($GLOBALS['BE_USER'])) {
-				/** @var $debugger tx_displaycontroller_debugger */
+		// Output only if activated and if a BE user is logged in or the current IP address
+		// matches the devIPMask
+		if ($this->debugToOutput && (isset($GLOBALS['BE_USER']) || t3lib_div::cmpIP(t3lib_div::getIndpEnv('REMOTE_ADDR'), $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask']))) {
+			/** @var $debugger tx_displaycontroller_debugger */
 			$debugger = NULL;
 				// If a custom debugging class is declared, get an instance of it
 			if (!empty($this->extensionConfiguration['debugger'])) {

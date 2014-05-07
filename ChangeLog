@@ -1,3 +1,7 @@
+2014-05-07 Francois Suter (Cobweb)  <typo3@cobweb.ch>
+
+	* Improved debugging code, resolves #58594
+
 2014-05-06 Francois Suter (Cobweb)  <typo3@cobweb.ch>
 
 	* Verified compatibility with TYPO3 CMS 6.2, resolves #58575
