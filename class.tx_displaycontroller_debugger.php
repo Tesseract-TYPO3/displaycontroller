@@ -125,6 +125,7 @@ class tx_displaycontroller_debugger implements t3lib_Singleton {
 				$debugLink = '
 					<span class="debug-message ' . $this->getMessageClass($messageObject) . '"' .
 					' data-debug="' . urlencode(json_encode($messageData['data'])) . '"' .
+					' data-debug-header="' . addslashes($messageObject->getTitle() . ': ' . $messageObject->getMessage()) . '"' .
 					' data-method="' . $logMethod . '"' .
 					'" onclick="DisplaycontrollerDebugger.dumpDebugData()">&nbsp;</span>
 				';

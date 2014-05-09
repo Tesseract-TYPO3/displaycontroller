@@ -7,6 +7,8 @@
  */
 var DisplaycontrollerDebugger = {
 	dumpDebugData: function() {
+		// Read the debug header
+		var debugHeader = event.target.getAttribute('data-debug-header');
 		// Read the debug data
 		var debugData = event.target.getAttribute('data-debug');
 		// Read the log method
@@ -17,13 +19,13 @@ var DisplaycontrollerDebugger = {
 			var debugObject = JSON.parse(decodeURIComponent(debugData.replace(/\+/g, ' ')));
 			switch (debugMethod) {
 				case 'error':
-					console.error(debugObject);
+					console.error(debugHeader, debugObject);
 					break;
 				case 'warn':
-					console.warn(debugObject);
+					console.warn(debugHeader, debugObject);
 					break;
 				default:
-					console.log(debugObject);
+					console.log(debugHeader, debugObject);
 			}
 		}
 	}
