@@ -73,7 +73,7 @@ class tx_displaycontroller_debugger implements t3lib_Singleton {
 			// Adjust path to icons
 			$replacement = t3lib_div::locationHeaderUrl(TYPO3_mainDir . t3lib_extMgm::extRelPath('t3skin') . 'icons');
 			$this->cssCode = str_replace($pathToReplace, $replacement, $this->cssCode);
-			$this->jsFile = t3lib_extMgm::extRelPath('displaycontroller') . 'Resources/Public/JavaScript/Debugger.js';
+			$this->jsFile = t3lib_div::locationHeaderUrl(TYPO3_mainDir . t3lib_extMgm::extRelPath('displaycontroller')) . 'Resources/Public/JavaScript/Debugger.js';
 		}
 		// Compatibility only for TYPO3 4.5, @see getMessageClass() below
 		if (strpos(TYPO3_version, '4.5') !== FALSE) {
