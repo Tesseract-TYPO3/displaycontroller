@@ -1,3 +1,7 @@
+2014-05-09 Francois Suter (Cobweb)  <typo3@cobweb.ch>
+
+	* Released to TER as version 1.6.0, resolves #58583
+
 2014-05-07 Francois Suter (Cobweb)  <typo3@cobweb.ch>
 
 	* Improved debugging code, resolves #58594
