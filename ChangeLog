@@ -1,6 +1,7 @@
 2015-04-13 Francois Suter (Cobweb)  <typo3@cobweb.ch>
 
 	* Added catching of unitialized FlexForm options, resolves #66394
+	* Fixed debugging output, resolves #66395
 
 2014-05-09 Francois Suter (Cobweb)  <typo3@cobweb.ch>
 
