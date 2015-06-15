@@ -3,11 +3,41 @@ if (!defined ('TYPO3_MODE')) {
  	die ('Access denied.');
 }
 
-	// Register plug-ins with standard template
-t3lib_extMgm::addPItoST43($_EXTKEY, 'pi1/class.tx_displaycontroller_pi1.php', '_pi1', 'CType', 1);
-t3lib_extMgm::addPItoST43($_EXTKEY, 'pi2/class.tx_displaycontroller_pi2.php', '_pi2', 'CType', 0);
+// Register plug-ins with standard template
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43(
+	$_EXTKEY,
+	'Classes/Controller/PluginCached.php',
+	'_pi1',
+	'CType',
+	1
+);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43(
+	$_EXTKEY,
+	'Classes/Controller/PluginNotCached.php',
+	'_pi2',
+	'CType',
+	0
+);
 
-	// Initialise known list of consumer and providers (if not yet done (might be if extensions were not loaded in proper order))
+// Add plugin controller
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+	'Tesseract.Displaycontroller',
+	'setup', '
+		# Setting "felogin" plugin TypoScript
+		plugin.tx_displaycontroller_pi1 = USER
+		plugin.tx_displaycontroller_pi1.userFunc = Tesseract\\Displaycontroller\\Controller\\PluginCached->main
+	'
+);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+	'Tesseract.Displaycontroller',
+	'setup', '
+		# Setting "felogin" plugin TypoScript
+		plugin.tx_displaycontroller_pi2 = USER_INT
+		plugin.tx_displaycontroller_pi2.userFunc = Tesseract\\Displaycontroller\\Controller\\PluginNotCached->main
+	'
+);
+
+// Initialise known list of consumer and providers (if not yet done (might be if extensions were not loaded in proper order))
 if (!isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['providers'])) {
 	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['providers'] = array();
 }
@@ -15,49 +45,55 @@ if (!isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['consumers'])) {
 	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['consumers'] = array();
 }
 
-	// Register Controller services for both plug-ins
-	// NOTE 1: the type of service is "datacontroller" and not "controller" to avoid conflict with a possible, future, core "controller" service
-	// NOTE 2: the subtype corresponds to the CType
-	// NOTE 3: the actual class used is the same for both plug-ins (since both plug-ins are the same, except for the cache)
-t3lib_extMgm::addService($_EXTKEY,  'datacontroller' /* sv type */,  'tx_displaycontroller_pi1' /* sv key */,
-		array(
+// Register Controller services for both plug-ins
+// NOTE 1: the type of service is "datacontroller" and not "controller" to avoid conflict with a possible, future, core "controller" service
+// NOTE 2: the subtype corresponds to the CType
+// NOTE 3: the actual class used is the same for both plug-ins (since both plug-ins are the same, except for the cache)
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addService(
+	$_EXTKEY,
+	// Service type
+	'datacontroller',
+	// Service key
+	'tx_displaycontroller_pi1',
+	array(
+		'title' => 'Display Controller (cached)',
+		'description' => 'Controller service for the (cached) display controller',
 
-			'title' => 'Display Controller (cached)',
-			'description' => 'Controller service for the (cached) display controller',
+		'subtype' => 'displaycontroller_pi1',
 
-			'subtype' => 'displaycontroller_pi1',
+		'available' => TRUE,
+		'priority' => 50,
+		'quality' => 50,
 
-			'available' => TRUE,
-			'priority' => 50,
-			'quality' => 50,
+		'os' => '',
+		'exec' => '',
 
-			'os' => '',
-			'exec' => '',
+		'className' => 'Tesseract\\Displaycontroller\\Service\\ControllerService',
+	)
+);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addService(
+	$_EXTKEY,
+	// Service type
+	'datacontroller',
+	// Service key
+	'tx_displaycontroller_pi2',
+	array(
+		'title' => 'Display Controller (not cached)',
+		'description' => 'Controller service for the (not cached) display controller',
 
-			'classFile' => t3lib_extMgm::extPath($_EXTKEY, 'class.tx_displaycontroller_service.php'),
-			'className' => 'tx_displaycontroller_service',
-		)
-	);
-t3lib_extMgm::addService($_EXTKEY,  'datacontroller' /* sv type */,  'tx_displaycontroller_pi2' /* sv key */,
-		array(
+		'subtype' => 'displaycontroller_pi2',
 
-			'title' => 'Display Controller (not cached)',
-			'description' => 'Controller service for the (not cached) display controller',
+		'available' => TRUE,
+		'priority' => 50,
+		'quality' => 50,
 
-			'subtype' => 'displaycontroller_pi2',
+		'os' => '',
+		'exec' => '',
 
-			'available' => TRUE,
-			'priority' => 50,
-			'quality' => 50,
+		'className' => 'Tesseract\\Displaycontroller\\Service\\ControllerService',
+	)
+);
 
-			'os' => '',
-			'exec' => '',
-
-			'classFile' => t3lib_extMgm::extPath($_EXTKEY, 'class.tx_displaycontroller_service.php'),
-			'className' => 'tx_displaycontroller_service',
-		)
-	);
-
-	// Register the function to preview data with TCEmain hook
-$GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['tx_displaycontroller'] = 'EXT:displaycontroller/hooks/class.tx_displaycontroller_hooks_tcemain.php:&tx_displaycontroller_hooks_tcemain';
-?>
+// Register the function to preview data with TCEmain hook
+// @todo: check for removal in TYPO3 CMS 7 now that this feature is built into the Core
+$GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['tx_displaycontroller'] = 'Tesseract\\Displaycontroller\\Hook\\DataHandlerHook';

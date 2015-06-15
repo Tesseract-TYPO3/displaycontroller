@@ -1,38 +1,34 @@
 <?php
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2008 Francois Suter <support@cobweb.ch>
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+namespace Tesseract\Displaycontroller\Utility;
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * RealURL translator for the 'displaycontroller' extension.
  *
- * @author		Francois Suter <typo3@cobweb.ch>
- * @author		Fabien Udriot <typo3@cobweb.ch>
- * @package		TYPO3
- * @subpackage	tx_displaycontroller
+ * This class is meant to automatically handle speaking URLs when using the default
+ * combination of GET/POST vars "tx_displaycontroller[table]" and "tx_displaycontroller[showUid]".
+ * However this way to do things is not recommended anymore and will be deprecated
+ * in the next version of displaycontroller
  *
- * $Id$
+ * @author Francois Suter <typo3@cobweb.ch>
+ * @author Fabien Udriot <typo3@cobweb.ch>
+ * @package TYPO3
+ * @subpackage tx_displaycontroller
  */
-class tx_displaycontroller_realurl {
+class RealUrlTranslator {
 
 	protected $extKey = 'displaycontroller';
 	protected $postVarSets = 'item';
@@ -46,17 +42,21 @@ class tx_displaycontroller_realurl {
 	static protected $languageConfiguration;
 	static protected $defaultLanguageCode;
 
+	/**
+	 * @deprecated Will be dropped in displaycontroller 2.1.0 without replacement
+	 */
 	public function __construct() {
+		GeneralUtility::logDeprecatedFunction();
 		$this->configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey]);
 	}
 
 	/**
-	 * This method performs either encoding or decoding to/from a speaking URL segment
-	 * and returns the relevant information
+	 * Performs either encoding or decoding to/from a speaking URL segment
+	 * and returns the relevant information.
 	 *
-	 * @param	array	$parameters: 'pObj' => 'tx_realurl', 'value' -> '1' (pid) , 'decodeAlias' => OR 'encodeAlias' =>
-	 * @param	object	$ref
-	 * @return	string
+	 * @param array $parameters 'pObj' => 'tx_realurl', 'value' -> '1' (pid) , 'decodeAlias' => OR 'encodeAlias' =>
+	 * @param object $ref
+	 * @return string
 	 */
 	public function main($parameters, $ref) {
 		if (isset($GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_displaycontroller.']['detailView.']['postVarSets'])) {
@@ -76,7 +76,7 @@ class tx_displaycontroller_realurl {
 	 * This method takes a speaking url alias and returns a primarey key for the right table
 	 *
 	 * @param array $parameters Parameters passed by RealURL
-	 * @param tx_realurl $ref Reference to the RealURL object
+	 * @param \tx_realurl $ref Reference to the RealURL object
 	 *
 	 * @return	integer		primary key
 	 */
@@ -124,7 +124,7 @@ class tx_displaycontroller_realurl {
 			// Get the table name from the GET/POST parameters
 		if (empty($parameters['tx_displaycontroller[table]'])) {
 			if ($this->configuration['debug'] || TYPO3_DLOG) {
-				t3lib_div::devLog('tx_displaycontroller[table] is empty', $this->extKey, 3, $parameters);
+				GeneralUtility::devLog('tx_displaycontroller[table] is empty', $this->extKey, 3, $parameters);
 			}
 		} else {
 			$table = $parameters['tx_displaycontroller[table]'];
@@ -132,7 +132,7 @@ class tx_displaycontroller_realurl {
 			// Get the record's id from the GET/POST parameters
 		if (empty($parameters['tx_displaycontroller[showUid]'])) {
 			if ($this->configuration['debug'] || TYPO3_DLOG) {
-				t3lib_div::devLog('tx_displaycontroller[showUid] is empty', $this->extKey, 3, $parameters);
+				GeneralUtility::devLog('tx_displaycontroller[showUid] is empty', $this->extKey, 3, $parameters);
 			}
 		} else {
 			$id = intval($parameters['tx_displaycontroller[showUid]']);
@@ -158,7 +158,7 @@ class tx_displaycontroller_realurl {
 			if (empty($configurations[$table])) {
 					// If no configuration, log the error
 				if ($this->configuration['debug'] || TYPO3_DLOG) {
-					t3lib_div::devLog(sprintf('No alias configuration found for table %s, falling back on default (uid)', $table), $this->extKey, 2, $configurations);
+					GeneralUtility::devLog(sprintf('No alias configuration found for table %s, falling back on default (uid)', $table), $this->extKey, 2, $configurations);
 				}
 					// Fall back on default configuration
 					// NOTE: uid hard-coded, it could be made configurable if need arises
@@ -171,7 +171,7 @@ class tx_displaycontroller_realurl {
 					// Issue an error if no alias field was found
 				if (empty($configuration['alias_field'])) {
 					if ($this->configuration['debug'] || TYPO3_DLOG) {
-						t3lib_div::devLog(sprintf('Undefined alias field for table %1$s, using %2$s instead', $table, $configuration['id_field']), $this->extKey, 2, $configuration);
+						GeneralUtility::devLog(sprintf('Undefined alias field for table %1$s, using %2$s instead', $table, $configuration['id_field']), $this->extKey, 2, $configuration);
 					}
 					$configuration['alias_field'] = $configuration['id_field'];
 				}
@@ -191,7 +191,7 @@ class tx_displaycontroller_realurl {
 				// Check if field alias contains a curly brace, if yes, call the expressions parser
 			$field_alias = $configuration['alias_field'];
 			if (strpos($configuration['alias_field'], '{') !== FALSE) {
-				$field_alias = tx_expressions_parser::evaluateString($configuration['alias_field']);
+				$field_alias = \Cobweb\Expressions\ExpressionParser::evaluateString($configuration['alias_field']);
 			}
 				// Now check if the field alias contains a ###LANG### marker
 				// If yes, substitute it with language code taken from RealURL config
@@ -257,7 +257,7 @@ class tx_displaycontroller_realurl {
 	 * @param string $field_alias Nae of the alias field
 	 * @param string $field_id Name of the primary key
 	 * @param integer $id Value of the primary key
-	 * @param tx_realurl $ref Reference to the RealURL object
+	 * @param \tx_realurl $ref Reference to the RealURL object
 	 *
 	 * @return    string        cleaned up alias for the item
 	 */
@@ -315,7 +315,7 @@ class tx_displaycontroller_realurl {
 			// (we don't do this before, because it's nicer if we can manage to append
 			// only a few numbers)
 		if (!$hasUniqueAlias) {
-			$uniqueAlias = $alias . $separator . t3lib_div::shortMD5(microtime());
+			$uniqueAlias = $alias . $separator . GeneralUtility::shortMD5(microtime());
 		}
 		return $uniqueAlias;
 	}
@@ -362,4 +362,3 @@ class tx_displaycontroller_realurl {
 		}
 	}
 }
-?>

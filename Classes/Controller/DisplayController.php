@@ -1,72 +1,84 @@
 <?php
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2008-2010 Francois Suter (Cobweb) <typo3@cobweb.ch>
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+namespace Tesseract\Displaycontroller\Controller;
+
+/*
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+
+use Cobweb\Expressions\ExpressionParser;
+use Tesseract\Tesseract\Component\DataProviderInterface;
+use Tesseract\Tesseract\Exception\InvalidComponentException;
+use Tesseract\Tesseract\Exception\MissingComponentException;
+use Tesseract\Tesseract\Frontend\PluginControllerBase;
+use Tesseract\Tesseract\Tesseract;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Plugin 'Display Controller (cached)' for the 'displaycontroller' extension.
  *
- * @author		Francois Suter (Cobweb) <typo3@cobweb.ch>
- * @package		TYPO3
- * @subpackage	tx_displaycontroller
- *
- * $Id$
+ * @author Francois Suter (Cobweb) <typo3@cobweb.ch>
+ * @package TYPO3
+ * @subpackage tx_displaycontroller
  */
-class tx_displaycontroller extends tx_tesseract_picontrollerbase {
-	public $prefixId = 'tx_displaycontroller';		// Same as class name
-	public $extKey		= 'displaycontroller';	// The extension key.
+class DisplayController extends PluginControllerBase {
 	/**
-	 * Contains a reference to the frontend Data Consumer object
-	 * @var tx_tesseract_feconsumerbase
+	 * @var string Prefix for GET/POST variables
+	 */
+	public $prefixId = 'tx_displaycontroller';
+
+	/**
+	 * @var string Extension key
+	 */
+	public $extKey = 'displaycontroller';
+
+	/**
+	 * @var \Tesseract\Tesseract\Service\FrontendConsumerBase Reference to the frontend Data Consumer object
 	 */
 	protected $consumer;
+
 	/**
 	 * @var bool FALSE if Data Consumer should not receive the structure
 	 */
 	protected $passStructure = TRUE;
+
 	/**
 	 * @var array General extension configuration
 	 */
 	protected $extensionConfiguration = array();
+
 	/**
 	 * @var bool Debug to output or not
 	 */
 	protected $debugToOutput = FALSE;
+
 	/**
 	 * @var bool Debug to devlog or not
 	 */
 	protected $debugToDevLog = FALSE;
+
 	/**
 	 * @var int Minimum level of message to be logged. Default is all.
 	 */
 	protected $debugMinimumLevel = -1;
 
 	public function __construct() {
-			// Read the general configuration and initialize the debug flags
+		// Read the general configuration and initialize the debug flags
 		$this->extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey]);
 		if (!empty($this->extensionConfiguration['debug'])) {
 			$this->setDebugOptions($this->extensionConfiguration['debug']);
 		}
-			// Make sure the minimum debugging level is set and has a correct value
+		// Make sure the minimum debugging level is set and has a correct value
 		if (isset($this->extensionConfiguration['minDebugLevel'])) {
 			$level = intval($this->extensionConfiguration['minDebugLevel']);
 			if ($level >= -1 && $level <= 3) {
@@ -76,7 +88,7 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 	}
 
 	/**
-	 * Sets the proper debug options, given some flag
+	 * Sets the proper debug options, given some flag.
 	 *
 	 * @param string $flag Debug flag. Expected values are "output", "devlog", "both" or "none"
 	 * @return void
@@ -95,7 +107,7 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 				$this->debugToDevLog = TRUE;
 				break;
 
-				// Turn off all debugging if no valid value was entered
+			// Turn off all debugging if no valid value was entered
 			default:
 				$this->debug = FALSE;
 				$this->debugToOutput = FALSE;
@@ -104,17 +116,17 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 	}
 
 	/**
-	 * Overrides the default pi_loadLL method, as displaycontroller provides two plugins sharing the same locallang files
+	 * Overrides the default pi_loadLL method, as displaycontroller provides two plugins sharing the same locallang files.
 	 *
-	 * NOTE: TypoScript override of language labels is not implemented
+	 * NOTE: TypoScript override of language labels is not implemented.
 	 *
 	 * @return	void
 	 */
 	public function pi_loadLL() {
-			// Read the strings in the required charset
-		$this->LOCAL_LANG = t3lib_div::readLLfile('EXT:' . $this->extKey . '/locallang.xml', $this->LLkey, $GLOBALS['TSFE']->renderCharset);
+		// Read the strings in the required charset
+		$this->LOCAL_LANG = GeneralUtility::readLLfile('EXT:' . $this->extKey . '/locallang.xml', $this->LLkey, $GLOBALS['TSFE']->renderCharset);
 		if ($this->altLLkey) {
-			$this->LOCAL_LANG = t3lib_div::readLLfile('EXT:' . $this->extKey . '/locallang.xml', $this->altLLkey);
+			$this->LOCAL_LANG = GeneralUtility::readLLfile('EXT:' . $this->extKey . '/locallang.xml', $this->altLLkey);
 		}
 		$this->LOCAL_LANG_loaded = 1;
 	}
@@ -126,14 +138,15 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 	 * @return	void
 	 */
 	protected function init($conf) {
-			// Merge the configuration of the pi* plugin with the general configuration
-			// defined with plugin.tx_displaycontroller (if defined)
+		// Merge the configuration of the pi* plugin with the general configuration
+		// defined with plugin.tx_displaycontroller (if defined)
 		if (isset($GLOBALS['TSFE']->tmpl->setup['plugin.'][$this->prefixId . '.'])) {
-			$this->conf = t3lib_div::array_merge_recursive_overrule($GLOBALS['TSFE']->tmpl->setup['plugin.'][$this->prefixId.'.'], $conf);
+			$this->conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][$this->prefixId.'.'];
+			ArrayUtility::mergeRecursiveWithOverrule($this->conf, $conf);
 		} else {
 			$this->conf = $conf;
 		}
-			// Load flexform options
+		// Load flexform options
 		$this->pi_initPIflexForm();
 		if (isset($this->cObj->data['pi_flexform']['data']) & is_array($this->cObj->data['pi_flexform']['data'])) {
 			foreach ($this->cObj->data['pi_flexform']['data'] as $sheet => $langData) {
@@ -145,149 +158,153 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 				}
 			}
 		}
-			// Check local debug flag (overrides main one)
+		// Check local debug flag (overrides main one)
 		if (!empty($this->conf['debug']) && $this->conf['debug'] != 'none') {
 			$this->setDebugOptions($this->conf['debug']);
 		}
-			// Override standard piVars definition
-		$this->piVars = t3lib_div::_GPmerged($this->prefixId);
+		// Override standard piVars definition
+		$this->piVars = GeneralUtility::_GPmerged($this->prefixId);
 			// Load the language labels
 		$this->pi_loadLL();
-			// Show hidden records, if logged in BE and  previewing a record
-		if (isset($GLOBALS['BE_USER']) && t3lib_div::_GP('tx_displaycontroller_preview')) {
-				// We show all hidden records
+		// Show hidden records, if logged in BE and  previewing a record
+		if (isset($GLOBALS['BE_USER']) && GeneralUtility::_GP('tx_displaycontroller_preview')) {
+			// We show all hidden records
 			$GLOBALS['TSFE']->showHiddenRecords = 1;
 		}
-			// Finally load some additional data into the parser
+		// Finally load some additional data into the parser
 		$this->loadParserData();
 	}
 
 	/**
-	 * This method loads additional data into the parser, so that it is available for Data Filters
-	 * and other places where expressions are used
+	 * Loads additional data into the parser, so that it is available for Data Filters
+	 * and other places where expressions are used.
 	 *
 	 * @return	void
 	 */
 	protected function loadParserData() {
-			// Load plug-in's variables into the parser
-		tx_expressions_parser::setVars($this->piVars);
-			// Load specific configuration into the extra data
+		// Load plug-in's variables into the parser
+		ExpressionParser::setVars($this->piVars);
+		// Load specific configuration into the extra data
 		$extraData = array();
 		if (is_array($this->conf['context.'])) {
-			$extraData = t3lib_div::removeDotsFromTS($this->conf['context.']);
+			$extraData = GeneralUtility::removeDotsFromTS($this->conf['context.']);
 		}
-			// Allow loading of additional extra data from hooks
+		// Allow loading of additional extra data from hooks
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['setExtraDataForParser'])) {
 			foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['setExtraDataForParser'] as $className) {
-				$hookObject = &t3lib_div::getUserObj($className);
+				$hookObject = GeneralUtility::getUserObj($className);
 				$extraData = $hookObject->setExtraDataForParser($extraData, $this);
 			}
 		}
-			// Add the extra data to the parser and to the TSFE
+		// Add the extra data to the parser and to the TSFE
 		if (count($extraData) > 0) {
-			tx_expressions_parser::setExtraData($extraData);
-				// TODO: this should not stay
-				// This was added so that context can be available in the local TS of the templatedisplay
-				// We must find another solution so that the templatedisplay's TS can use the tx_expressions_parser
+			ExpressionParser::setExtraData($extraData);
+			// TODO: this should not stay
+			// This was added so that context can be available in the local TS of the templatedisplay
+			// We must find another solution so that the templatedisplay's TS can use the tx_expressions_parser
 			$GLOBALS['TSFE']->tesseract = $extraData;
 		}
 	}
 
 	/**
-	 * The main method of the plugin
-	 * This method uses a controller object to find the appropriate Data Provider
-	 * The data structure from the Data Provider is then passed to the appropriate Data Consumer for rendering
+	 * Drives the rendering by managing interaction of all components.
 	 *
-	 * @param	string		$content: the plugin's content
-	 * @param	array		$conf: the plugin's TS configuration
-	 * @return	string		The content to display on the website
+	 * This method uses a controller object to find the appropriate Data Provider.
+	 * The data structure from the Data Provider is then passed to the appropriate Data Consumer for rendering.
+	 *
+	 * @param string $content Current content (unused)
+	 * @param array $conf The plugin's TS configuration
+	 * @return string The content to display on the website
 	 */
 	public function main($content, $conf) {
 		$this->init($conf);
 		$content = '';
 		$filter = array();
 
-			// Handle the secondary provider first
+		// Handle the secondary provider first
 		$secondaryProvider = $this->initializeSecondaryProvider();
 
-			// Handle the primary provider
-			// Define the filter (if any)
+		// Handle the primary provider
+		// Define the filter (if any)
 		try {
 			$filter = $this->definePrimaryFilter();
 			$this->addMessage(
 				$this->extKey,
 				$this->pi_getLL('info.calculated_filter'),
 				$this->pi_getLL('info.primary_filter'),
-				t3lib_FlashMessage::INFO,
+				FlashMessage::INFO,
 				$filter
 			);
 		}
-		catch (Exception $e) {
-				// Issue error if a problem occurred with the filter
+		catch (\Exception $e) {
+			// Issue error if a problem occurred with the filter
 			$this->addMessage(
 				$this->extKey,
 				$e->getMessage() . ' (' . $e->getCode() . ')',
 				$this->pi_getLL('error.primary_filter'),
-				t3lib_FlashMessage::ERROR
+				FlashMessage::ERROR
 			);
 		}
 
-			// Get the primary data provider
+		// Get the primary data provider
 		try {
 			$primaryProviderData = $this->getComponentData('provider', 1);
-				// Get the primary data provider, if necessary
+			// Get the primary data provider, if necessary
 			if ($this->passStructure) {
 				try {
-					$primaryProvider = $this->getDataProvider($primaryProviderData, isset($secondaryProvider) ? $secondaryProvider : null);
+					$primaryProvider = $this->getDataProvider(
+						$primaryProviderData,
+						isset($secondaryProvider) ? $secondaryProvider : null
+					);
 					$primaryProvider->setDataFilter($filter);
-						// If the secondary provider exists and the option was chosen
-						// to display everything in the primary provider, no matter what
-						// the result from the secondary provider, make sure to set
-						// the empty data structure flag to false, otherwise nothing will display
+					// If the secondary provider exists and the option was chosen
+					// to display everything in the primary provider, no matter what
+					// the result from the secondary provider, make sure to set
+					// the empty data structure flag to false, otherwise nothing will display
 					if (isset($secondaryProvider) && !empty($this->cObj->data['tx_displaycontroller_emptyprovider2'])) {
 						$primaryProvider->setEmptyDataStructureFlag(FALSE);
 					}
 				}
-					// Something happened, skip passing the structure to the Data Consumer
-				catch (Exception $e) {
+				// Something happened, skip passing the structure to the Data Consumer
+				catch (\Exception $e) {
 					$this->passStructure = FALSE;
 					$this->addMessage(
 						$this->extKey,
 						$e->getMessage() . ' (' . $e->getCode() . ')',
 						$this->pi_getLL('error.primary_provider_interrupt'),
-						t3lib_FlashMessage::WARNING
+						FlashMessage::WARNING
 					);
 				}
 			}
 
-				// Get the data consumer
+			// Get the data consumer
 			try {
-					// Get the consumer's information
+				// Get the consumer's information
 				$consumerData = $this->getComponentData('consumer');
 				try {
-						// Get the corresponding Data Consumer component
-					$this->consumer = tx_tesseract::getComponent(
+					// Get the corresponding Data Consumer component
+					$this->consumer = Tesseract::getComponent(
 						'dataconsumer',
 						$consumerData['tablenames'],
 						array('table' => $consumerData['tablenames'], 'uid' => $consumerData['uid_foreign']),
 						$this
 					);
-						// Pass appropriate TypoScript to consumer
+					// Pass appropriate TypoScript to consumer
 					$typoscriptKey = $this->consumer->getTypoScriptKey();
 					$typoscriptConfiguration = isset($GLOBALS['TSFE']->tmpl->setup['plugin.'][$typoscriptKey]) ? $GLOBALS['TSFE']->tmpl->setup['plugin.'][$typoscriptKey] : array();
 					$this->consumer->setTypoScript($typoscriptConfiguration);
 					$this->consumer->setDataFilter($filter);
-						// If the structure should be passed to the consumer, do it now and get the rendered content
+					// If the structure should be passed to the consumer, do it now and get the rendered content
 					if ($this->passStructure) {
-							// Check if Data Provider can provide the right structure for the Data Consumer
+						// Check if Data Provider can provide the right structure for the Data Consumer
 						if ($primaryProvider->providesDataStructure($this->consumer->getAcceptedDataStructure())) {
-								// Get the data structure and pass it to the consumer
+							// Get the data structure and pass it to the consumer
 							$structure = $primaryProvider->getDataStructure();
-								// Check if there's a redirection configuration
+							// Check if there's a redirection configuration
 							$this->handleRedirection($structure);
-								// Pass the data structure to the consumer
+							// Pass the data structure to the consumer
 							$this->consumer->setDataStructure($structure);
-								// Start the processing and get the rendered data
+							// Start the processing and get the rendered data
 							$this->consumer->startProcess();
 							$content = $this->consumer->getResult();
 						} else {
@@ -295,59 +312,58 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 								$this->extKey,
 								$this->pi_getLL('error.incompatible_provider_consumer'),
 								'',
-								t3lib_FlashMessage::ERROR
+								FlashMessage::ERROR
 							);
 						}
-					}
+					} else {
 						// If no structure should be passed (see defineFilter()),
 						// don't pass structure :-), but still do the rendering
 						// (this gives the opportunity to the consumer to render its own error content, for example)
 						// This is achieved by not calling startProcess(), but just getResult()
-					else {
 						$content = $this->consumer->getResult();
 					}
 				}
-				catch (Exception $e) {
+				catch (\Exception $e) {
 					$this->addMessage(
 						$this->extKey,
 						$e->getMessage() . ' (' . $e->getCode() . ')',
 						$this->pi_getLL('error.no_consumer'),
-						t3lib_FlashMessage::ERROR
+						FlashMessage::ERROR
 					);
 				}
 			}
-			catch (Exception $e) {
+			catch (\Exception $e) {
 				$this->addMessage(
 					$this->extKey,
 					$e->getMessage() . ' (' . $e->getCode() . ')',
 					$this->pi_getLL('error.no_consumer'),
-					t3lib_FlashMessage::ERROR
+					FlashMessage::ERROR
 				);
 			}
 		}
-		catch (Exception $e) {
+		catch (\Exception $e) {
 			$this->addMessage(
 				$this->extKey,
 				$e->getMessage() . ' (' . $e->getCode() . ')',
 				$this->pi_getLL('error.no_primary_provider'),
-				t3lib_FlashMessage::ERROR
+				FlashMessage::ERROR
 			);
 		}
 
-			// If debugging to output is active, prepend content with debugging messages
+		// If debugging to output is active, prepend content with debugging messages
 		$content = $this->writeDebugOutput() . $content;
 		return $content;
 	}
 
 	/**
-	 * Initializes the secondary provider, possibly with its secondary filter
+	 * Initializes the secondary provider, possibly with its secondary filter.
 	 *
-	 * @return null|tx_tesseract_dataprovider
+	 * @return null|\Tesseract\Tesseract\Component\DataProviderInterface
 	 */
 	protected function initializeSecondaryProvider() {
 		$secondaryProvider = NULL;
 		if (!empty($this->cObj->data['tx_displaycontroller_provider2'])) {
-				// Get the secondary data filter, if any
+			// Get the secondary data filter, if any
 			$secondaryFilter = $this->getEmptyFilter();
 			if (!empty($this->cObj->data['tx_displaycontroller_datafilter2'])) {
 				$secondaryFilter = $this->defineAdvancedFilter('secondary');
@@ -355,39 +371,39 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 					$this->extKey,
 					$this->pi_getLL('info.calculated_filter'),
 					$this->pi_getLL('info.secondary_filter'),
-					t3lib_FlashMessage::INFO,
+					FlashMessage::INFO,
 					$secondaryFilter
 				);
 			}
-				// Get the secondary provider if necessary,
-				// i.e. if the process was not blocked by the advanced filter (by setting the passStructure flag to false)
+			// Get the secondary provider if necessary,
+			// i.e. if the process was not blocked by the advanced filter (by setting the passStructure flag to false)
 			if ($this->passStructure) {
 				try {
-						// Get the secondary provider's information
+					// Get the secondary provider's information
 					$secondaryProviderData = $this->getComponentData('provider', 2);
 					try {
-							// Get the corresponding component
+						// Get the corresponding component
 						$secondaryProviderObject = $this->getDataProvider($secondaryProviderData);
 						$secondaryProvider = clone $secondaryProviderObject;
 						$secondaryProvider->setDataFilter($secondaryFilter);
 					}
-						// Something happened, skip passing the structure to the Data Consumer
-					catch (Exception $e) {
+					// Something happened, skip passing the structure to the Data Consumer
+					catch (\Exception $e) {
 						$this->passStructure = FALSE;
 						$this->addMessage(
 							$this->extKey,
 							$e->getMessage() . ' (' . $e->getCode() . ')',
 							$this->pi_getLL('error.secondary_provider_interrupt'),
-							t3lib_FlashMessage::WARNING
+							FlashMessage::WARNING
 						);
 					}
 				}
-				catch (Exception $e) {
+				catch (\Exception $e) {
 					$this->addMessage(
 						$this->extKey,
 						$e->getMessage() . ' (' . $e->getCode() . ')',
 						$this->pi_getLL('error.no_secondary_provider'),
-						t3lib_FlashMessage::ERROR
+						FlashMessage::ERROR
 					);
 				}
 			}
@@ -396,40 +412,41 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 	}
 
 	/**
-	 * This method defines the Data Filter to use depending on the values stored in the database record
-	 * It returns the Data Filter structure
+	 * Defines the Data Filter to use depending on the values stored in the database record.
 	 *
-	 * @return	array	Data Filter structure
+	 * It returns the Data Filter structure.
+	 *
+	 * @return array Data Filter structure
 	 */
 	protected function definePrimaryFilter() {
 		$filter = $this->getEmptyFilter();
 		if (!empty($this->cObj->data['tx_displaycontroller_filtertype'])) {
 			switch ($this->cObj->data['tx_displaycontroller_filtertype']) {
 
-					// Simple filter for single view
-					// We expect the "table" and "showUid" parameters and assemble a filter based on those values
+				// Simple filter for single view
+				// We expect the "table" and "showUid" parameters and assemble a filter based on those values
 				case 'single':
 					$filter = array();
 					$filter['filters'] = array(
-											0 => array(
-												'table' => $this->piVars['table'],
-												'field' => 'uid',
-												'conditions' => array(
-													0 => array(
-														'operator' => '=',
-														'value' => $this->piVars['showUid'],
-													)
-												)
-											)
-										);
+						0 => array(
+							'table' => $this->piVars['table'],
+							'field' => 'uid',
+							'conditions' => array(
+								0 => array(
+									'operator' => '=',
+									'value' => $this->piVars['showUid'],
+								)
+							)
+						)
+					);
 					break;
 
-					// Simple filter for list view
+				// Simple filter for list view
 				case 'list':
 					$filter = $this->defineListFilter();
 					break;
 
-					// Handle advanced data filters
+				// Handle advanced data filters
 				case 'filter':
 					$filter = $this->defineAdvancedFilter();
 					break;
@@ -448,16 +465,17 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 	}
 
 	/**
-	 * This method is used to initialise the filter
-	 * This can be either an empty array or some structure already stored in cache
+	 * Initialises the filter.
 	 *
-	 * @param	mixed	$key: a string or a number that identifies a given filter (for example, the uid of a DataFilter record)
-	 * @return	array	A filter structure or an empty array
+	 * This can be either an empty array or some structure already stored in cache.
+	 *
+	 * @param mixed $key A string or a number that identifies a given filter (for example, the uid of a DataFilter record)
+	 * @return array A filter structure or an empty array
 	 */
 	protected function initFilter($key = '') {
 		$filter = array();
-		$clearCache = isset($this->piVars['clear_cache']) ? $this->piVars['clear_cache'] : t3lib_div::_GP('clear_cache');
-			// If cache is not cleared, retrieve cached filter
+		$clearCache = isset($this->piVars['clear_cache']) ? $this->piVars['clear_cache'] : GeneralUtility::_GP('clear_cache');
+		// If cache is not cleared, retrieve cached filter
 		if (empty($clearCache)) {
 			if (empty($key)) {
 				$key = 'default';
@@ -468,10 +486,10 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 				$filter = $cache;
 			}
 		}
-			// Declare hook for extending the initialisation of the filter
+		// Declare hook for extending the initialisation of the filter
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['extendInitFilter'])) {
 			foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['extendInitFilter'] as $className) {
-				$hookObject = t3lib_div::getUserObj($className);
+				$hookObject = GeneralUtility::getUserObj($className);
 				$filter = $hookObject->extendInitFilter($filter, $this);
 			}
 		}
@@ -479,31 +497,32 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 	}
 
 	/**
-	 * This method defines the filter for the default, simple list view
-	 * It expects two parameters, "limit" and "page" ,for browsing the list's pages
-	 * It will also consider a default sorting scheme represented by the "sort" and "order" parameters
+	 * Defines the filter for the default, simple list view.
 	 *
-	 * @return	array	A filter structure
+	 * It expects two parameters, "limit" and "page" ,for browsing the list's pages.
+	 * It will also consider a default sorting scheme represented by the "sort" and "order" parameters.
+	 *
+	 * @return array A filter structure
 	 */
 	protected function defineListFilter() {
-			// Initialise the filter
+		// Initialise the filter
 		$filter = $this->initFilter();
 		if (!isset($filter['limit'])) $filter['limit'] = array();
 
-			// Handle the page browsing variables
+		// Handle the page browsing variables
 		if (isset($this->piVars['max'])) {
 			$filter['limit']['max'] = $this->piVars['max'];
 		}
 		$filter['limit']['offset'] = isset($this->piVars['page']) ? $this->piVars['page'] : 0;
 
-			// If the limit is still empty after that, consider the default value from TypoScript
+		// If the limit is still empty after that, consider the default value from TypoScript
 		if (empty($filter['limit']['max'])) {
 			$filter['limit']['max'] = $this->conf['listView.']['limit'];
 		}
 
-			// Handle sorting variables
+		// Handle sorting variables
 		if (isset($this->piVars['sort'])) {
-			$sortParts = t3lib_div::trimExplode('.', $this->piVars['sort'], 1);
+			$sortParts = GeneralUtility::trimExplode('.', $this->piVars['sort'], 1);
 			$table = '';
 			$field = $sortParts[0];
 			if (count($sortParts) == 2) {
@@ -514,9 +533,9 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 			$orderby = array(0 => array('table' => $table, 'field' => $field, 'order' => $order));
 			$filter['orderby'] = $orderby;
 
-			// If there were no variables, check a default sorting configuration
+		// If there were no variables, check a default sorting configuration
 		} elseif (!empty($this->conf['listView.']['sort'])) {
-			$sortParts = t3lib_div::trimExplode('.', $this->conf['listView.']['sort'], 1);
+			$sortParts = GeneralUtility::trimExplode('.', $this->conf['listView.']['sort'], 1);
 			$table = '';
 			$field = $sortParts[0];
 			if (count($sortParts) == 2) {
@@ -528,7 +547,7 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 			$filter['orderby'] = $orderby;
 		}
 
-			// Save the filter's hash in session
+		// Save the filter's hash in session
 		$cacheKey = $this->prefixId . '_filterCache_default_' . $this->cObj->data['uid'] . '_' . $GLOBALS['TSFE']->id;
 		$GLOBALS['TSFE']->fe_user->setKey('ses', $cacheKey, $filter);
 
@@ -536,11 +555,11 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 	}
 
 	/**
-	 * This method gets a filter structure from a referenced Data Filter
+	 * Gets a filter structure from a referenced Data Filter.
 	 *
 	 * @param string $type Type of filter, either primary (default) or secondary
-	 * @throws Exception
-	 * @return array A filter structure
+	 * @return array
+	 * @throws MissingComponentException
 	 */
 	protected function defineAdvancedFilter($type = 'primary') {
 			// Define rank based on call parameter
@@ -550,73 +569,74 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 			$rank = 2;
 			$checkField = 'tx_displaycontroller_emptyfilter2';
 		}
-			// Get the data filter
+		// Get the data filter
 		try {
-				// Get the filter's information
+			// Get the filter's information
 			$filterData = $this->getComponentData('filter', $rank);
-				// Get the corresponding Data Filter component
-				/** @var $datafilter tx_tesseract_datafilter */
-			$datafilter = tx_tesseract::getComponent(
+			// Get the corresponding Data Filter component
+			/** @var $datafilter \Tesseract\Tesseract\Component\DataFilterInterface */
+			$datafilter = Tesseract::getComponent(
 				'datafilter',
 				$filterData['tablenames'],
 				array('table' => $filterData['tablenames'], 'uid' => $filterData['uid_foreign']),
 				$this
 			);
-				// Initialise the filter
+			// Initialise the filter
 			$filter = $this->initFilter($filterData['uid_foreign']);
-				// Pass the cached filter to the DataFilter
+			// Pass the cached filter to the DataFilter
 			$datafilter->setFilter($filter);
 			try {
 				$filter = $datafilter->getFilterStructure();
-					// Store the filter in session
+				// Store the filter in session
 				$cacheKey = $this->prefixId . '_filterCache_' . $filterData['uid_foreign'] . '_' . $this->cObj->data['uid'] . '_' . $GLOBALS['TSFE']->id;
 				$GLOBALS['TSFE']->fe_user->setKey('ses', $cacheKey, $filter);
-					// Here handle case where the "filters" part of the filter is empty
-					// If the display nothing flag has been set, we must somehow stop the process
-					// The Data Provider should not even be called at all
-					// and the Data Consumer should receive an empty (special?) structure
+				// Here handle case where the "filters" part of the filter is empty
+				// If the display nothing flag has been set, we must somehow stop the process
+				// The Data Provider should not even be called at all
+				// and the Data Consumer should receive an empty (special?) structure
 				if ($datafilter->isFilterEmpty() && empty($this->cObj->data[$checkField])) {
 					$this->passStructure = FALSE;
 				}
 			}
-			catch (Exception $e) {
+			catch (\Exception $e) {
 				$this->addMessage(
 					$this->extKey,
 					$e->getMessage() . ' (' . $e->getCode() . ')',
 					$this->pi_getLL('error.get_filter'),
-					t3lib_FlashMessage::WARNING
+					FlashMessage::WARNING
 				);
 			}
 		}
-		catch (Exception $e) {
-			throw new Exception($this->pi_getLL('exception.no_filter'), 1326454151);
+		catch (\Exception $e) {
+			throw new MissingComponentException($this->pi_getLL('exception.no_filter'), 1326454151);
 		}
 		return $filter;
 	}
 
 	/**
-	 * This method checks whether a redirection is defined
-	 * If yes and if the conditions match, it performs the redirection
+	 * Checks whether a redirection is defined.
 	 *
-	 * @param	array	$structure: a SDS
-	 * @return	void
+	 * If yes and if the conditions match, it performs the redirection.
+	 *
+	 * @param array $structure A Standardised Data Structure
+	 * @return void
 	 */
 	protected function handleRedirection($structure) {
 		if (isset($this->conf['redirect.']) && !empty($this->conf['redirect.']['enable'])) {
-				// Initialisations
+			// Initialisations
 			$redirectConfiguration = $this->conf['redirect.'];
-				// Load general SDS information into registers
+			// Load general SDS information into registers
 			$GLOBALS['TSFE']->register['sds.totalCount'] = $structure['totalCount'];
 			$GLOBALS['TSFE']->register['sds.count'] = $structure['count'];
-				// Create a local cObject for handling the redirect configuration
-				/** @var $localCObj tslib_cObj */
-			$localCObj = t3lib_div::makeInstance('tslib_cObj');
-				// If there's at least one record, load it into the cObject
+			// Create a local cObject for handling the redirect configuration
+			/** @var $localCObj \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer */
+			$localCObj = GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer');
+			// If there's at least one record, load it into the cObject
 			if ($structure['count'] > 0) {
 				$localCObj->start($structure['records'][0]);
 			}
 
-				// First interpret the enable property
+			// First interpret the enable property
 			$enable = FALSE;
 			if (!empty($redirectConfiguration['enable'])) {
 				if (isset($this->conf['redirect.']['enable.'])) {
@@ -626,21 +646,21 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 				}
 			}
 
-				// If the redirection is indeed enabled, continue
+			// If the redirection is indeed enabled, continue
 			if ($enable) {
-					// Get the result of the condition
+				// Get the result of the condition
 				$condition = FALSE;
 				if (isset($redirectConfiguration['condition.'])) {
 					$condition = $localCObj->checkIf($redirectConfiguration['condition.']);
 				}
-					// If the condition was true, calculate the URL
+				// If the condition was true, calculate the URL
 				if ($condition) {
 					$url = '';
 					if (isset($redirectConfiguration['url.'])) {
 						$redirectConfiguration['url.']['returnLast'] = 'url';
 						$url = $localCObj->typoLink('', $redirectConfiguration['url.']);
 					}
-					header('Location: ' . t3lib_div::locationHeaderUrl($url));
+					header('Location: ' . GeneralUtility::locationHeaderUrl($url));
 				}
 			}
 		}
@@ -652,15 +672,15 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 	 *
 	 * @param string $component Type of component (provider, consumer, filter)
 	 * @param integer $rank Level of the component (1 = primary, 2 = secondary)
-	 * @throws Exception
-	 * @return array Database record from the MM-table linking the controller to its components
+	 * @return array
+	 * @throws MissingComponentException
 	 */
 	protected function getComponentData($component, $rank = 1) {
-			// Assemble base WHERE clause
-		$whereClause = "component = '" . $component . "' AND rank = '" . $rank . "'";
-			// Select the right uid for building the relation
-			// If a _ORIG_uid is defined (i.e. we're in a workspace), use it preferentially
-			// Otherwise, take the localized uid (i.e. we're using a translation), if it exists
+		// Assemble base WHERE clause
+		$whereClause = 'component = ' . $this->getDatabaseConnection()->fullQuoteStr($component, 'tx_displaycontroller_components_mm') . ' AND rank = ' . intval($rank);
+		// Select the right uid for building the relation
+		// If a _ORIG_uid is defined (i.e. we're in a workspace), use it preferentially
+		// Otherwise, take the localized uid (i.e. we're using a translation), if it exists
 		$referenceUid = $this->cObj->data['uid'];
 		if (!empty($this->cObj->data['_ORIG_uid'])) {
 			$referenceUid = $this->cObj->data['_ORIG_uid'];
@@ -668,14 +688,25 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 			$referenceUid = $this->cObj->data['_LOCALIZED_UID'];
 		}
 		$where = $whereClause . " AND uid_local = '" . intval($referenceUid) . "'";
-			// Query the database and return the fetched data
-			// If the query fails or turns up no results, throw an exception
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tx_displaycontroller_components_mm', $where);
-		if ($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
-			$componentData = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+		// Query the database and return the fetched data
+		// If the query fails or turns up no results, throw an exception
+		$row = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
+			'*',
+			'tx_displaycontroller_components_mm',
+			$where
+		);
+		if (empty($row)) {
+			$message = sprintf(
+				$this->pi_getLL('exception.no_component'),
+				$component,
+				$rank
+			);
+			throw new MissingComponentException(
+				$message,
+				1265577739
+			);
 		} else {
-			$message = sprintf($this->pi_getLL('exception.no_component'), $component, $rank);
-			throw new Exception($message, 1265577739);
+			$componentData = $row;
 		}
 		return $componentData;
 	}
@@ -683,46 +714,46 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 	/**
 	 * Gets a data provider.
 	 *
-	 * If a secondary provider is defined, it is fed into the first one
+	 * If a secondary provider is defined, it is fed into the first one.
 	 *
 	 * @param array $providerInfo Information about a provider related to the controller
-	 * @param tx_tesseract_dataprovider $secondaryProvider An instance of an object with a DataProvider interface
-	 * @throws Exception
-	 * @return \tx_tesseract_dataprovider Object with a DataProvider interface
+	 * @param DataProviderInterface $secondaryProvider An instance of an object with a DataProvider interface
+	 * @throws \Exception
+	 * @return DataProviderInterface Object with a DataProvider interface
 	 */
-	public function getDataProvider($providerInfo, tx_tesseract_dataprovider $secondaryProvider = null) {
-			// Get the related data providers
+	public function getDataProvider($providerInfo, DataProviderInterface $secondaryProvider = null) {
+		// Get the related data providers
 		$numProviders = count($providerInfo);
 		if ($numProviders == 0) {
-				// No provider, throw exception
-			throw new Exception($this->pi_getLL('exception.no_provider'), 1269414211);
+			// No provider, throw exception
+			throw new MissingComponentException($this->pi_getLL('exception.no_provider'), 1269414211);
 		} else {
-				// Get the Data Provider Component
-				/** @var $provider tx_tesseract_dataprovider */
-			$provider = tx_tesseract::getComponent(
+			// Get the Data Provider Component
+			/** @var $provider DataProviderInterface */
+			$provider = Tesseract::getComponent(
 				'dataprovider',
 				$providerInfo['tablenames'],
 				array('table' => $providerInfo['tablenames'], 'uid' => $providerInfo['uid_foreign']),
 				$this
 			);
-				// If a secondary provider is defined and the types are compatible,
-				// load it into the newly defined provider
+			// If a secondary provider is defined and the types are compatible,
+			// load it into the newly defined provider
 			if (isset($secondaryProvider)) {
 				if ($secondaryProvider->providesDataStructure($provider->getAcceptedDataStructure())) {
 					$inputDataStructure = $secondaryProvider->getDataStructure();
-						// If the secondary provider returned no list of items,
-						// force provider to return an empty structure
+					// If the secondary provider returned no list of items,
+					// force provider to return an empty structure
 					if ($inputDataStructure['count'] == 0) {
 						$provider->setEmptyDataStructureFlag(TRUE);
 
-						// Otherwise pass structure to the provider
+					// Otherwise pass structure to the provider
 					} else {
 						$provider->setDataStructure($inputDataStructure);
+
 					}
-				}
-					// Providers are not compatible, throw exception
-				else {
-					throw new Exception($this->pi_getLL('exception.incompatible_providers'), 1269414231);
+				// Providers are not compatible, throw exception
+				} else {
+					throw new InvalidComponentException($this->pi_getLL('exception.incompatible_providers'), 1269414231);
 				}
 			}
 			return $provider;
@@ -737,26 +768,26 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 	 * @param string $key A key identifying the calling component (typically an extension's key)
 	 * @param string $message Text of the message
 	 * @param string $title An optional title for the message
-	 * @param int $status A status/severity level for the message, based on the class constants from t3lib_FlashMessage
+	 * @param int $status A status/severity level for the message, based on the class constants from FlashMessage
 	 * @param mixed $debugData An optional variable containing additional debugging information
 	 * @return void
 	 */
-	public function addMessage($key, $message, $title = '', $status = t3lib_FlashMessage::INFO, $debugData = NULL) {
+	public function addMessage($key, $message, $title = '', $status = FlashMessage::INFO, $debugData = NULL) {
 			// Store the message only if debugging is active
 		if ($this->debug) {
 				// Validate status
 				// Fall back to default if invalid
 			$status = intval($status);
-			if ($status < t3lib_FlashMessage::NOTICE || $status > t3lib_FlashMessage::ERROR) {
-				$status = t3lib_FlashMessage::INFO;
+			if ($status < FlashMessage::NOTICE || $status > FlashMessage::ERROR) {
+				$status = FlashMessage::INFO;
 			}
 				// Match status to devLog levels
 				// (which follow a more logical progression than Flash Message levels)
 			switch ($status) {
-				case t3lib_FlashMessage::OK:
+				case FlashMessage::OK:
 					$level = -1;
 					break;
-				case t3lib_FlashMessage::NOTICE:
+				case FlashMessage::NOTICE:
 					$level = 1;
 					break;
 				default:
@@ -768,8 +799,8 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 				$fullTitle = '[' . $key . ']' . ((empty($title)) ? '' : ' ' . $title);
 					// The message data that corresponds to the Flash Message is stored directly as a Flash Message object,
 					// as this performs input validation on the data
-					/** @var $flashMessage t3lib_FlashMessage */
-				$flashMessage = t3lib_div::makeInstance('t3lib_FlashMessage', $message, $fullTitle, $status);
+					/** @var $flashMessage FlashMessage */
+				$flashMessage = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Messaging\\FlashMessage', $message, $fullTitle, $status);
 				$this->messageQueue[] = array(
 					'message' => $flashMessage,
 					'data' => $debugData
@@ -785,14 +816,14 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 							$extraData = array($debugData);
 						}
 					}
-					t3lib_div::devLog($flashMessage->getTitle() . ': ' . $flashMessage->getMessage(), $key, $level, $extraData);
+					GeneralUtility::devLog($flashMessage->getTitle() . ': ' . $flashMessage->getMessage(), $key, $level, $extraData);
 				}
 			}
 		}
 	}
 
 	/**
-	 * Prepares the debugging output, if so configured, and returns it
+	 * Prepares the debugging output, if so configured, and returns it.
 	 *
 	 * @return string HTML to output
 	 */
@@ -800,31 +831,31 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 		$output = '';
 		// Output only if activated and if a BE user is logged in or the current IP address
 		// matches the devIPMask
-		if ($this->debugToOutput && (isset($GLOBALS['BE_USER']) || t3lib_div::cmpIP(t3lib_div::getIndpEnv('REMOTE_ADDR'), $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask']))) {
-			/** @var $debugger tx_displaycontroller_debugger */
+		if ($this->debugToOutput && (isset($GLOBALS['BE_USER']) || GeneralUtility::cmpIP(GeneralUtility::getIndpEnv('REMOTE_ADDR'), $GLOBALS['TYPO3_CONF_VARS']['SYS']['devIPmask']))) {
+			/** @var $debugger \Tesseract\Displaycontroller\Utility\Debugger */
 			$debugger = NULL;
-				// If a custom debugging class is declared, get an instance of it
+			// If a custom debugging class is declared, get an instance of it
 			if (!empty($this->extensionConfiguration['debugger'])) {
 				try {
-					$debugger = t3lib_div::makeInstance(
+					$debugger = GeneralUtility::makeInstance(
 						$this->extensionConfiguration['debugger'],
 						$GLOBALS['TSFE']->getPageRenderer()
 					);
 				}
-				catch (Exception $e) {
+				catch (\Exception $e) {
 					$this->addMessage(
 						$this->extKey,
 						$this->pi_getLL('error.no_custom_debugger_info'),
 						$this->pi_getLL('error.no_custom_debugger'),
-						t3lib_FlashMessage::WARNING
+						FlashMessage::WARNING
 					);
 				}
 			}
-				// If no custom debugger class is defined or if it was not of the right type,
-				// instantiate the default class
-			if ($debugger === NULL || !($debugger instanceof tx_displaycontroller_debugger)) {
-				$debugger = t3lib_div::makeInstance(
-					'tx_displaycontroller_debugger',
+			// If no custom debugger class is defined or if it was not of the right type,
+			// instantiate the default class
+			if ($debugger === NULL || !($debugger instanceof \Tesseract\Displaycontroller\Utility\Debugger)) {
+				$debugger = GeneralUtility::makeInstance(
+					'Tesseract\\Displaycontroller\\Utility\\Debugger',
 					$GLOBALS['TSFE']->getPageRenderer()
 				);
 			}
@@ -832,12 +863,13 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 		}
 		return $output;
 	}
+
+	/**
+	 * Returns the global database object.
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
+	}
 }
-
-
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/displaycontroller/class.tx_displaycontroller.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/displaycontroller/class.tx_displaycontroller.php']);
-}
-
-?>
