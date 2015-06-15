@@ -1,3 +1,7 @@
+2015-06-15 Francois Suter (Cobweb)  <typo3@cobweb.ch>
+
+	* Moved to namespaces, verified compatibility with TYPO3 CMS 7, resolves #67377
+
 2015-04-13 Francois Suter (Cobweb)  <typo3@cobweb.ch>
 
 	* Added catching of unitialized FlexForm options, resolves #66394
