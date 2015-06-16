@@ -1,19 +1,28 @@
 .debug-message {
-	padding: 8px 8px 0 8px;
+	padding: 3px 4px;
 	margin: 2px;
 	border-radius: 3px;
+	border: 1px solid #ffffff;
 	cursor: pointer;
-	font-size: 11px;
+	font-size: 16px;
 	text-decoration: none;
+	color: #ffffff;
+	display: inline-block;
 }
-.tx_displaycontroller_debug .message-information,
-.tx_displaycontroller_debug .message-notice,
-.tx_displaycontroller_debug .message-warning,
-.tx_displaycontroller_debug .message-ok,
-.tx_displaycontroller_debug .message-error {
-	background-position: 50% 50%;
-	background-repeat: no-repeat;
-	background-color: #000000;
+.debug-info {
+	background-color: #1851e7;
+}
+.debug-error {
+	background-color: #ff472c;
+}
+.debug-success {
+	background-color: #9ed012;
+}
+.debug-warning {
+	background-color: #ff9100;
+}
+.debug-note {
+	background-color: #999999;
 }
 
 .tx_displaycontroller_debug .icon-group {
@@ -26,7 +35,7 @@
 	display: none;
 	position: absolute;
 	left: 4px;
-	top: 15px;
+	top: 27px;
 	background-color: #000000;
 	padding: 4px;
 	border-radius: 3px;

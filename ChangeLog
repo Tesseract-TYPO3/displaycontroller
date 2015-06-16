@@ -1,3 +1,7 @@
+2015-06-16 Francois Suter (Cobweb)  <typo3@cobweb.ch>
+
+	* Reworked debug output, resolves #67467
+
 2015-06-15 Francois Suter (Cobweb)  <typo3@cobweb.ch>
 
 	* Moved to namespaces, verified compatibility with TYPO3 CMS 7, resolves #67377
