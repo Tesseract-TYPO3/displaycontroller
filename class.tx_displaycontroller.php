@@ -135,7 +135,7 @@ class tx_displaycontroller extends tx_tesseract_picontrollerbase {
 		}
 			// Load flexform options
 		$this->pi_initPIflexForm();
-		if (isset($this->cObj->data['pi_flexform']['data']) & is_array($this->cObj->data['pi_flexform']['data'])) {
+		if (isset($this->cObj->data['pi_flexform']['data']) && is_array($this->cObj->data['pi_flexform']['data'])) {
 			foreach ($this->cObj->data['pi_flexform']['data'] as $sheet => $langData) {
 				foreach ($langData as $fields) {
 					foreach ($fields as $field => $value) {
