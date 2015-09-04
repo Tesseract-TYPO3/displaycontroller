@@ -1,3 +1,7 @@
+2015-09-04 Francois Suter (Cobweb)  <typo3@cobweb.ch>
+
+	* Adapted wizard definition for TYPO3 CMS 7.5, resolves #69534
+
 2015-06-16 Francois Suter (Cobweb)  <typo3@cobweb.ch>
 
 	* Reworked debug output, resolves #67467
