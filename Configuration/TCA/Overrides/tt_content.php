@@ -36,10 +36,13 @@ $tempColumns = array(
 					'type' => 'popup',
 					'title' => 'LLL:EXT:displaycontroller/locallang_db.xml:wizards.edit_dataconsumer',
 					'script' => 'wizard_edit.php',
+					'module' => array(
+						'name' => 'wizard_edit'
+					),
 					'icon' => 'edit2.gif',
 					'popup_onlyOpenIfSelected' => 1,
 					'notNewRecords' => 1,
-					'JSopenParams' => 'height=500,width=800,status=0,menubar=0,scrollbars=1,resizable=yes'
+					'JSopenParams' => 'height=800,width=1000,status=0,menubar=0,scrollbars=1,resizable=yes'
 				),
 			)
 		)
@@ -67,10 +70,13 @@ $tempColumns = array(
 					'type' => 'popup',
 					'title' => 'LLL:EXT:displaycontroller/locallang_db.xml:wizards.edit_dataprovider',
 					'script' => 'wizard_edit.php',
+					'module' => array(
+						'name' => 'wizard_edit'
+					),
 					'icon' => 'edit2.gif',
 					'popup_onlyOpenIfSelected' => 1,
 					'notNewRecords' => 1,
-					'JSopenParams' => 'height=500,width=800,status=0,menubar=0,scrollbars=1,resizable=yes'
+					'JSopenParams' => 'height=800,width=1000,status=0,menubar=0,scrollbars=1,resizable=yes'
 				),
 			)
 		)
@@ -111,10 +117,13 @@ $tempColumns = array(
 					'type' => 'popup',
 					'title' => 'LLL:EXT:displaycontroller/locallang_db.xml:wizards.edit_datafilter',
 					'script' => 'wizard_edit.php',
+					'module' => array(
+						'name' => 'wizard_edit'
+					),
 					'icon' => 'edit2.gif',
 					'popup_onlyOpenIfSelected' => 1,
 					'notNewRecords' => 1,
-					'JSopenParams' => 'height=500,width=800,status=0,menubar=0,scrollbars=1,resizable=yes'
+					'JSopenParams' => 'height=800,width=1000,status=0,menubar=0,scrollbars=1,resizable=yes'
 				),
 			)
 		)
@@ -153,10 +162,13 @@ $tempColumns = array(
 					'type' => 'popup',
 					'title' => 'LLL:EXT:displaycontroller/locallang_db.xml:wizards.edit_dataprovider',
 					'script' => 'wizard_edit.php',
+					'module' => array(
+						'name' => 'wizard_edit'
+					),
 					'icon' => 'edit2.gif',
 					'popup_onlyOpenIfSelected' => 1,
 					'notNewRecords' => 1,
-					'JSopenParams' => 'height=500,width=800,status=0,menubar=0,scrollbars=1,resizable=yes'
+					'JSopenParams' => 'height=800,width=1000,status=0,menubar=0,scrollbars=1,resizable=yes'
 				),
 			)
 		)
@@ -195,10 +207,13 @@ $tempColumns = array(
 					'type' => 'popup',
 					'title' => 'LLL:EXT:displaycontroller/locallang_db.xml:wizards.edit_datafilter',
 					'script' => 'wizard_edit.php',
+					'module' => array(
+						'name' => 'wizard_edit'
+					),
 					'icon' => 'edit2.gif',
 					'popup_onlyOpenIfSelected' => 1,
 					'notNewRecords' => 1,
-					'JSopenParams' => 'height=500,width=800,status=0,menubar=0,scrollbars=1,resizable=yes'
+					'JSopenParams' => 'height=800,width=1000,status=0,menubar=0,scrollbars=1,resizable=yes'
 				),
 			)
 		)
