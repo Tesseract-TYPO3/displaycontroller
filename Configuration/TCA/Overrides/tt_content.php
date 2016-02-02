@@ -233,12 +233,12 @@ $tempColumns = array(
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $tempColumns, 1);
 
 // Define showitem property for both plug-ins, depending on TYPO3 version
-$showItem = '--palette--;LLL:EXT:cms/locallang_ttc.xml:palette.general;general, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.header;header,';
+$showItem = '--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general, --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.header;header,';
 $showItem .= '--div--;LLL:EXT:displaycontroller/locallang_db.xml:tabs.dataobjects, tx_displaycontroller_consumer;;;;1-1-1, tx_displaycontroller_provider;;displaycontroller_1;;2-2-2,  tx_displaycontroller_provider2;;displaycontroller_2;;2-2-2, tx_displaycontroller_emptyprovider2,';
 $showItem .= '--div--;LLL:EXT:displaycontroller/locallang_db.xml:tabs_options, pi_flexform,';
-$showItem .= '--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.appearance, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.frames;frames, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.textlayout;textlayout,';
-$showItem .= '--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.access, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.visibility;visibility, --palette--;LLL:EXT:cms/locallang_ttc.xml:palette.access;access,';
-$showItem .= '--div--;LLL:EXT:cms/locallang_ttc.xml:tabs.extended';
+$showItem .= '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance, --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames, --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.textlayout;textlayout,';
+$showItem .= '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.visibility;visibility, --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,';
+$showItem .= '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.extended';
 $GLOBALS['TCA']['tt_content']['types']['displaycontroller_pi1']['showitem'] = $showItem;
 $GLOBALS['TCA']['tt_content']['types']['displaycontroller_pi2']['showitem'] = $showItem;
 
