@@ -148,7 +148,7 @@ class DisplayController extends PluginControllerBase {
 		}
 		// Load flexform options
 		$this->pi_initPIflexForm();
-		if (isset($this->cObj->data['pi_flexform']['data']) & is_array($this->cObj->data['pi_flexform']['data'])) {
+		if (is_array($this->cObj->data['pi_flexform']) && array_key_exists('data', $this->cObj->data['pi_flexform']) && count($this->cObj->data['pi_flexform']['data']) > 0) {
 			foreach ($this->cObj->data['pi_flexform']['data'] as $sheet => $langData) {
 				foreach ($langData as $fields) {
 					foreach ($fields as $field => $value) {
