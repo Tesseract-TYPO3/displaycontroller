@@ -1,0 +1,15 @@
+{
+	"name": "tesseract/displaycontroller",
+	"type": "typo3-cms-extension",
+	"description": "This FE plugin manages relations between Tesseract components and produces output in the FE. More info on http://www.typo3-tesseract.com/",
+	"license": ["GPL-2.0+"],
+	"autoload": {
+		"psr-4": {
+			"Tesseract\\Displaycontroller\\": "Classes/"
+		}
+	},
+	"replace": {
+		"displaycontroller": "self.version",
+		"typo3-ter/displaycontroller": "self.version"
+	}
+}
