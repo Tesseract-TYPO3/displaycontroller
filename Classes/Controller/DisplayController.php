@@ -132,7 +132,7 @@ class DisplayController extends PluginControllerBase
     {
         /** @var $languageFactory LocalizationFactory */
         $languageFactory = GeneralUtility::makeInstance(LocalizationFactory::class);
-        $languageFile = 'EXT:' . $this->extKey . '/locallang.xml';
+        $languageFile = 'EXT:' . $this->extKey . '/Resources/Private/Language/locallang.xlf';
         // Read the strings in the required charset
         $this->LOCAL_LANG = $languageFactory->getParsedData(
                 $languageFile,

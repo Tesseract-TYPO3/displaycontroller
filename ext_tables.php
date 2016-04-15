@@ -15,15 +15,10 @@ if (!defined ('TYPO3_MODE')) {
 	$_EXTKEY . '_pi2'
 );
 
-// Add context sensitive help (csh) for the FlexForm
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
-	'tt_content.pi_flexform.displaycontroller_pi1.CType',
-	'EXT:' . $_EXTKEY . '/locallang_csh_options.xml'
-);
 // Add context sensitive help (csh) for the new fields
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
 	'tt_content',
-	'EXT:' . $_EXTKEY . '/locallang_csh_ttcontent.xml'
+	'EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_csh_ttcontent.xlf'
 );
 
 $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY);
@@ -38,7 +33,7 @@ $icons = array(
 // Register plug-ins (pi1 is cached, pi2 is not cached)
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
 	array(
-		'LLL:EXT:displaycontroller/locallang_db.xml:tt_content.CType_pi1',
+		'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.CType_pi1',
 		$_EXTKEY . '_pi1',
 		$typeIcon
 	),
@@ -46,7 +41,7 @@ $icons = array(
 );
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
 	array(
-		'LLL:EXT:displaycontroller/locallang_db.xml:tt_content.CType_pi2',
+		'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.CType_pi2',
 		$_EXTKEY . '_pi2',
 		$typeIcon
 	),

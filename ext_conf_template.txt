@@ -1,13 +1,13 @@
-# customsubcategory=debugging=LLL:EXT:displaycontroller/locallang.xml:debugging
+# customsubcategory=debugging=LLL:EXT:displaycontroller/Resources/Private/Language/locallang.xlf:debugging
 
-# cat=basic/enable/; type=boolean; label=LLL:EXT:displaycontroller/locallang.xml:saveAndViewAction
+# cat=basic/enable/; type=boolean; label=LLL:EXT:displaycontroller/Resources/Private/Language/locallang.xlf:saveAndViewAction
 saveAndViewAction = 0
 
-# cat=basic/debugging/; type=options[LLL:EXT:displaycontroller/locallang.xml:config_debug.none=none,LLL:EXT:displaycontroller/locallang.xml:config_debug.output=output,LLL:EXT:displaycontroller/locallang.xml:config_debug.devlog=devlog,LLL:EXT:displaycontroller/locallang.xml:config_debug.both=both]; label=LLL:EXT:displaycontroller/locallang.xml:config_debug
+# cat=basic/debugging/; type=options[LLL:EXT:displaycontroller/Resources/Private/Language/locallang.xlf:config_debug.none=none,LLL:EXT:displaycontroller/Resources/Private/Language/locallang.xlf:config_debug.output=output,LLL:EXT:displaycontroller/Resources/Private/Language/locallang.xlf:config_debug.devlog=devlog,LLL:EXT:displaycontroller/Resources/Private/Language/locallang.xlf:config_debug.both=both]; label=LLL:EXT:displaycontroller/Resources/Private/Language/locallang.xlf:config_debug
 debug = -1
 
-# cat=basic/debugging/; type=options[LLL:EXT:displaycontroller/locallang.xml:minDebugLevel.ok=-1,LLL:EXT:displaycontroller/locallang.xml:minDebugLevel.info=0,LLL:EXT:displaycontroller/locallang.xml:minDebugLevel.notice=1,LLL:EXT:displaycontroller/locallang.xml:minDebugLevel.warning=2,LLL:EXT:displaycontroller/locallang.xml:minDebugLevel.error=3]; label=LLL:EXT:displaycontroller/locallang.xml:minDebugLevel
+# cat=basic/debugging/; type=options[LLL:EXT:displaycontroller/Resources/Private/Language/locallang.xlf:minDebugLevel.ok=-1,LLL:EXT:displaycontroller/Resources/Private/Language/locallang.xlf:minDebugLevel.info=0,LLL:EXT:displaycontroller/Resources/Private/Language/locallang.xlf:minDebugLevel.notice=1,LLL:EXT:displaycontroller/Resources/Private/Language/locallang.xlf:minDebugLevel.warning=2,LLL:EXT:displaycontroller/Resources/Private/Language/locallang.xlf:minDebugLevel.error=3]; label=LLL:EXT:displaycontroller/Resources/Private/Language/locallang.xlf:minDebugLevel
 minDebugLevel = none
 
-# cat=basic/debugging/; type=string; label=LLL:EXT:displaycontroller/locallang.xml:debugger
+# cat=basic/debugging/; type=string; label=LLL:EXT:displaycontroller/Resources/Private/Language/locallang.xlf:debugger
 debugger =

@@ -15,7 +15,7 @@ if (!defined ('TYPO3_MODE')) {
 $tempColumns = array(
 	'tx_displaycontroller_consumer' => array(
 		'exclude' => 0,
-		'label' => 'LLL:EXT:displaycontroller/locallang_db.xml:tt_content.tx_displaycontroller_consumer',
+		'label' => 'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.tx_displaycontroller_consumer',
 		'config' => array(
 			'type' => 'group',
 			'internal_type' => 'db',
@@ -34,7 +34,7 @@ $tempColumns = array(
 			'wizards' => array(
 				'edit' => array(
 					'type' => 'popup',
-					'title' => 'LLL:EXT:displaycontroller/locallang_db.xml:wizards.edit_dataconsumer',
+					'title' => 'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:wizards.edit_dataconsumer',
 					'script' => 'wizard_edit.php',
 					'module' => array(
 						'name' => 'wizard_edit'
@@ -49,7 +49,7 @@ $tempColumns = array(
 	),
 	'tx_displaycontroller_provider' => array(
 		'exclude' => 0,
-		'label' => 'LLL:EXT:displaycontroller/locallang_db.xml:tt_content.tx_displaycontroller_provider',
+		'label' => 'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.tx_displaycontroller_provider',
 		'config' => array (
 			'type' => 'group',
 			'internal_type' => 'db',
@@ -68,7 +68,7 @@ $tempColumns = array(
 			'wizards' => array(
 				'edit' => array(
 					'type' => 'popup',
-					'title' => 'LLL:EXT:displaycontroller/locallang_db.xml:wizards.edit_dataprovider',
+					'title' => 'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:wizards.edit_dataprovider',
 					'script' => 'wizard_edit.php',
 					'module' => array(
 						'name' => 'wizard_edit'
@@ -83,20 +83,20 @@ $tempColumns = array(
 	),
 	'tx_displaycontroller_filtertype' => array (
 		'exclude' => 0,
-		'label' => 'LLL:EXT:displaycontroller/locallang_db.xml:tt_content.tx_displaycontroller_filtertype',
+		'label' => 'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.tx_displaycontroller_filtertype',
 		'config' => array (
 			'type' => 'radio',
 			'items' => array (
-				array('LLL:EXT:displaycontroller/locallang_db.xml:tt_content.tx_displaycontroller_filtertype.I.0', ''),
-				array('LLL:EXT:displaycontroller/locallang_db.xml:tt_content.tx_displaycontroller_filtertype.I.1', 'single'),
-				array('LLL:EXT:displaycontroller/locallang_db.xml:tt_content.tx_displaycontroller_filtertype.I.2', 'list'),
-				array('LLL:EXT:displaycontroller/locallang_db.xml:tt_content.tx_displaycontroller_filtertype.I.3', 'filter'),
+				array('LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.tx_displaycontroller_filtertype.I.0', ''),
+				array('LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.tx_displaycontroller_filtertype.I.1', 'single'),
+				array('LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.tx_displaycontroller_filtertype.I.2', 'list'),
+				array('LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.tx_displaycontroller_filtertype.I.3', 'filter'),
 			),
 		)
 	),
 	'tx_displaycontroller_datafilter' => array (
 		'exclude' => 0,
-		'label' => 'LLL:EXT:displaycontroller/locallang_db.xml:tt_content.tx_displaycontroller_datafilter',
+		'label' => 'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.tx_displaycontroller_datafilter',
 		'config' => array (
 			'type' => 'group',
 			'internal_type' => 'db',
@@ -115,7 +115,7 @@ $tempColumns = array(
 			'wizards' => array(
 				'edit' => array(
 					'type' => 'popup',
-					'title' => 'LLL:EXT:displaycontroller/locallang_db.xml:wizards.edit_datafilter',
+					'title' => 'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:wizards.edit_datafilter',
 					'script' => 'wizard_edit.php',
 					'module' => array(
 						'name' => 'wizard_edit'
@@ -130,18 +130,18 @@ $tempColumns = array(
 	),
 	'tx_displaycontroller_emptyfilter' => array (
 		'exclude' => 0,
-		'label' => 'LLL:EXT:displaycontroller/locallang_db.xml:tt_content.tx_displaycontroller_emptyfilter',
+		'label' => 'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.tx_displaycontroller_emptyfilter',
 		'config' => array (
 			'type' => 'radio',
 			'items' => array (
-				array('LLL:EXT:displaycontroller/locallang_db.xml:tt_content.tx_displaycontroller_emptyfilter.I.0', ''),
-				array('LLL:EXT:displaycontroller/locallang_db.xml:tt_content.tx_displaycontroller_emptyfilter.I.1', 'all'),
+				array('LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.tx_displaycontroller_emptyfilter.I.0', ''),
+				array('LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.tx_displaycontroller_emptyfilter.I.1', 'all'),
 			),
 		)
 	),
 	'tx_displaycontroller_provider2' => array(
 		'exclude' => 0,
-		'label' => 'LLL:EXT:displaycontroller/locallang_db.xml:tt_content.tx_displaycontroller_provider2',
+		'label' => 'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.tx_displaycontroller_provider2',
 		'config' => array (
 			'type' => 'group',
 			'internal_type' => 'db',
@@ -160,7 +160,7 @@ $tempColumns = array(
 			'wizards' => array(
 				'edit' => array(
 					'type' => 'popup',
-					'title' => 'LLL:EXT:displaycontroller/locallang_db.xml:wizards.edit_dataprovider',
+					'title' => 'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:wizards.edit_dataprovider',
 					'script' => 'wizard_edit.php',
 					'module' => array(
 						'name' => 'wizard_edit'
@@ -175,18 +175,18 @@ $tempColumns = array(
 	),
 	'tx_displaycontroller_emptyprovider2' => array (
 		'exclude' => 0,
-		'label' => 'LLL:EXT:displaycontroller/locallang_db.xml:tt_content.tx_displaycontroller_emptyprovider2',
+		'label' => 'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.tx_displaycontroller_emptyprovider2',
 		'config' => array (
 			'type' => 'radio',
 			'items' => array (
-				array('LLL:EXT:displaycontroller/locallang_db.xml:tt_content.tx_displaycontroller_emptyfilter.I.0', ''),
-				array('LLL:EXT:displaycontroller/locallang_db.xml:tt_content.tx_displaycontroller_emptyfilter.I.1', 'all'),
+				array('LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.tx_displaycontroller_emptyfilter.I.0', ''),
+				array('LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.tx_displaycontroller_emptyfilter.I.1', 'all'),
 			),
 		)
 	),
 	'tx_displaycontroller_datafilter2' => array (
 		'exclude' => 0,
-		'label' => 'LLL:EXT:displaycontroller/locallang_db.xml:tt_content.tx_displaycontroller_datafilter2',
+		'label' => 'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.tx_displaycontroller_datafilter2',
 		'config' => array (
 			'type' => 'group',
 			'internal_type' => 'db',
@@ -205,7 +205,7 @@ $tempColumns = array(
 			'wizards' => array(
 				'edit' => array(
 					'type' => 'popup',
-					'title' => 'LLL:EXT:displaycontroller/locallang_db.xml:wizards.edit_datafilter',
+					'title' => 'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:wizards.edit_datafilter',
 					'script' => 'wizard_edit.php',
 					'module' => array(
 						'name' => 'wizard_edit'
@@ -220,12 +220,12 @@ $tempColumns = array(
 	),
 	'tx_displaycontroller_emptyfilter2' => array (
 		'exclude' => 0,
-		'label' => 'LLL:EXT:displaycontroller/locallang_db.xml:tt_content.tx_displaycontroller_emptyfilter',
+		'label' => 'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.tx_displaycontroller_emptyfilter',
 		'config' => array (
 			'type' => 'radio',
 			'items' => array (
-				array('LLL:EXT:displaycontroller/locallang_db.xml:tt_content.tx_displaycontroller_emptyfilter.I.0', ''),
-				array('LLL:EXT:displaycontroller/locallang_db.xml:tt_content.tx_displaycontroller_emptyfilter.I.1', 'all'),
+				array('LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.tx_displaycontroller_emptyfilter.I.0', ''),
+				array('LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.tx_displaycontroller_emptyfilter.I.1', 'all'),
 			),
 		)
 	),
@@ -234,8 +234,8 @@ $tempColumns = array(
 
 // Define showitem property for both plug-ins, depending on TYPO3 version
 $showItem = '--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general, --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.header;header,';
-$showItem .= '--div--;LLL:EXT:displaycontroller/locallang_db.xml:tabs.dataobjects, tx_displaycontroller_consumer;;;;1-1-1, tx_displaycontroller_provider;;displaycontroller_1;;2-2-2,  tx_displaycontroller_provider2;;displaycontroller_2;;2-2-2, tx_displaycontroller_emptyprovider2,';
-$showItem .= '--div--;LLL:EXT:displaycontroller/locallang_db.xml:tabs_options, pi_flexform,';
+$showItem .= '--div--;LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tabs.dataobjects, tx_displaycontroller_consumer;;;;1-1-1, tx_displaycontroller_provider;;displaycontroller_1;;2-2-2,  tx_displaycontroller_provider2;;displaycontroller_2;;2-2-2, tx_displaycontroller_emptyprovider2,';
+$showItem .= '--div--;LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tabs_options, pi_flexform,';
 $showItem .= '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.appearance, --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.frames;frames, --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.textlayout;textlayout,';
 $showItem .= '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.visibility;visibility, --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.access;access,';
 $showItem .= '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.extended';

@@ -2,6 +2,7 @@
 
 	* Applied PSR-2 and cleaned up code, resolves #75653
 	* Removed custom preview mechanism (rely on Core), resolves #75658
+	* Moved language files to XLIFF, resolves #75659
 
 2016-02-02 Francois Suter (Cobweb)  <typo3@cobweb.ch>
 
