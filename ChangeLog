@@ -5,6 +5,7 @@
 	* Moved language files to XLIFF, resolves #75659
 	* Adjusted code for improved compatibility, resolves #75663
 	* Released to TER as version 2.0.0, resolves #75664
+	* Released to TER as version 2.0.1, resolves #75665
 
 2016-02-02 Francois Suter (Cobweb)  <typo3@cobweb.ch>
 

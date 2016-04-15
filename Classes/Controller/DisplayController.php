@@ -85,7 +85,7 @@ class DisplayController extends PluginControllerBase
         }
         // Make sure the minimum debugging level is set and has a correct value
         if (isset($this->extensionConfiguration['minDebugLevel'])) {
-            $level = intval($this->extensionConfiguration['minDebugLevel']);
+            $level = (int)$this->extensionConfiguration['minDebugLevel'];
             if ($level >= -1 && $level <= 3) {
                 $this->debugMinimumLevel = $level;
             }
@@ -167,9 +167,7 @@ class DisplayController extends PluginControllerBase
         }
         // Load flexform options
         $this->pi_initPIflexForm();
-        if (is_array($this->cObj->data['pi_flexform']) && array_key_exists('data',
-                        $this->cObj->data['pi_flexform']) && count($this->cObj->data['pi_flexform']['data']) > 0
-        ) {
+        if (is_array($this->cObj->data['pi_flexform']) && array_key_exists('data', $this->cObj->data['pi_flexform']) && count($this->cObj->data['pi_flexform']['data']) > 0) {
             foreach ($this->cObj->data['pi_flexform']['data'] as $sheet => $langData) {
                 foreach ($langData as $fields) {
                     foreach ($fields as $field => $value) {
@@ -703,7 +701,7 @@ class DisplayController extends PluginControllerBase
     {
         // Assemble base WHERE clause
         $whereClause = 'component = ' . $this->getDatabaseConnection()->fullQuoteStr($component,
-                        'tx_displaycontroller_components_mm') . ' AND rank = ' . intval($rank);
+                        'tx_displaycontroller_components_mm') . ' AND rank = ' . (int)$rank;
         // Select the right uid for building the relation
         // If a _ORIG_uid is defined (i.e. we're in a workspace), use it preferentially
         // Otherwise, take the localized uid (i.e. we're using a translation), if it exists
@@ -713,7 +711,7 @@ class DisplayController extends PluginControllerBase
         } elseif (!empty($this->cObj->data['_LOCALIZED_UID'])) {
             $referenceUid = $this->cObj->data['_LOCALIZED_UID'];
         }
-        $where = $whereClause . " AND uid_local = '" . intval($referenceUid) . "'";
+        $where = $whereClause . ' AND uid_local = ' . (int)$referenceUid;
         // Query the database and return the fetched data
         // If the query fails or turns up no results, throw an exception
         $row = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
