@@ -22,7 +22,8 @@ if (!defined ('TYPO3_MODE')) {
 // Add plugin controller
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
 	'Tesseract.Displaycontroller',
-	'setup', '
+	'setup',
+	'
 		# Setting "felogin" plugin TypoScript
 		plugin.tx_displaycontroller_pi1 = USER
 		plugin.tx_displaycontroller_pi1.userFunc = Tesseract\\Displaycontroller\\Controller\\PluginCached->main
@@ -30,7 +31,8 @@ if (!defined ('TYPO3_MODE')) {
 );
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
 	'Tesseract.Displaycontroller',
-	'setup', '
+	'setup',
+	'
 		# Setting "felogin" plugin TypoScript
 		plugin.tx_displaycontroller_pi2 = USER_INT
 		plugin.tx_displaycontroller_pi2.userFunc = Tesseract\\Displaycontroller\\Controller\\PluginNotCached->main
@@ -68,7 +70,7 @@ if (!isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['consumers'])) {
 		'os' => '',
 		'exec' => '',
 
-		'className' => 'Tesseract\\Displaycontroller\\Service\\ControllerService',
+		'className' => \Tesseract\Displaycontroller\Service\ControllerService::class,
 	)
 );
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addService(
@@ -90,6 +92,6 @@ if (!isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['consumers'])) {
 		'os' => '',
 		'exec' => '',
 
-		'className' => 'Tesseract\\Displaycontroller\\Service\\ControllerService',
+		'className' => \Tesseract\Displaycontroller\Service\ControllerService::class,
 	)
 );

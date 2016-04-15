@@ -35,7 +35,6 @@ $tempColumns = array(
 				'edit' => array(
 					'type' => 'popup',
 					'title' => 'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:wizards.edit_dataconsumer',
-					'script' => 'wizard_edit.php',
 					'module' => array(
 						'name' => 'wizard_edit'
 					),
@@ -69,7 +68,6 @@ $tempColumns = array(
 				'edit' => array(
 					'type' => 'popup',
 					'title' => 'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:wizards.edit_dataprovider',
-					'script' => 'wizard_edit.php',
 					'module' => array(
 						'name' => 'wizard_edit'
 					),
@@ -116,7 +114,6 @@ $tempColumns = array(
 				'edit' => array(
 					'type' => 'popup',
 					'title' => 'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:wizards.edit_datafilter',
-					'script' => 'wizard_edit.php',
 					'module' => array(
 						'name' => 'wizard_edit'
 					),
@@ -161,7 +158,6 @@ $tempColumns = array(
 				'edit' => array(
 					'type' => 'popup',
 					'title' => 'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:wizards.edit_dataprovider',
-					'script' => 'wizard_edit.php',
 					'module' => array(
 						'name' => 'wizard_edit'
 					),
@@ -206,7 +202,6 @@ $tempColumns = array(
 				'edit' => array(
 					'type' => 'popup',
 					'title' => 'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:wizards.edit_datafilter',
-					'script' => 'wizard_edit.php',
 					'module' => array(
 						'name' => 'wizard_edit'
 					),
@@ -230,7 +225,11 @@ $tempColumns = array(
 		)
 	),
 );
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $tempColumns, 1);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns(
+        'tt_content',
+        $tempColumns,
+        1
+);
 
 // Define showitem property for both plug-ins, depending on TYPO3 version
 $showItem = '--palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general, --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.header;header,';
@@ -242,10 +241,26 @@ $showItem .= '--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.
 $GLOBALS['TCA']['tt_content']['types']['displaycontroller_pi1']['showitem'] = $showItem;
 $GLOBALS['TCA']['tt_content']['types']['displaycontroller_pi2']['showitem'] = $showItem;
 
-$GLOBALS['TCA']['tt_content']['palettes']['displaycontroller_1'] = array('showitem' => 'tx_displaycontroller_filtertype, tx_displaycontroller_datafilter, tx_displaycontroller_emptyfilter');
-$GLOBALS['TCA']['tt_content']['palettes']['displaycontroller_2'] = array('showitem' => 'tx_displaycontroller_datafilter2, tx_displaycontroller_emptyfilter2');
+$GLOBALS['TCA']['tt_content']['palettes']['displaycontroller_1'] = array(
+        'showitem' => 'tx_displaycontroller_filtertype, tx_displaycontroller_datafilter, tx_displaycontroller_emptyfilter'
+);
+$GLOBALS['TCA']['tt_content']['palettes']['displaycontroller_2'] = array(
+        'showitem' => 'tx_displaycontroller_datafilter2, tx_displaycontroller_emptyfilter2'
+);
 
 // Register icons for content type
 // Define classes and register icon files with Sprite Manager
-$GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['displaycontroller_pi1'] =  'extensions-displaycontroller-type-controller';
-$GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['displaycontroller_pi2'] =  'extensions-displaycontroller-type-controller';
+$GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['displaycontroller_pi1'] =  'tx_displaycontroller-content-element';
+$GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['displaycontroller_pi2'] =  'tx_displaycontroller-content-element';
+
+// Add FlexForm options for both controllers
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
+	'*',
+	'FILE:EXT:displaycontroller/Configuration/FlexForm/Options.xml',
+	'displaycontroller_pi1'
+);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
+	'*',
+	'FILE:EXT:displaycontroller/Configuration/FlexForm/Options.xml',
+	'displaycontroller_pi2'
+);
