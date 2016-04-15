@@ -21,6 +21,7 @@ namespace Tesseract\Displaycontroller\Controller;
  * @package TYPO3
  * @subpackage tx_displaycontroller
  */
-class PluginNotCached extends DisplayController {
-	public $scriptRelPath = 'Classes/Controller/PluginNotCached.php';    // Path to this script relative to the extension dir.
+class PluginNotCached extends DisplayController
+{
+    public $scriptRelPath = 'Classes/Controller/PluginNotCached.php';    // Path to this script relative to the extension dir.
 }

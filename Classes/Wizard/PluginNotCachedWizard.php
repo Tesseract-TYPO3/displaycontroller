@@ -14,6 +14,7 @@ namespace Tesseract\Displaycontroller\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Localization\Parser\LocallangXmlParser;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -24,38 +25,41 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package TYPO3
  * @subpackage tx_displaycontroller
  */
-class PluginNotCachedWizard {
+class PluginNotCachedWizard
+{
 
-	/**
-	 * Processing the wizard items array.
-	 *
-	 * @param array $wizardItems The wizard items
-	 * @return array Modified array with wizard items
-	 */
-	function proc($wizardItems)	{
-		$LL = $this->includeLocalLang();
+    /**
+     * Processing the wizard items array.
+     *
+     * @param array $wizardItems The wizard items
+     * @return array Modified array with wizard items
+     */
+    public function proc($wizardItems)
+    {
+        $LL = $this->includeLocalLang();
 
-		$wizardItems['plugins_tx_displaycontroller_pi2'] = array(
-			'icon' => ExtensionManagementUtility::extRelPath('displaycontroller') . 'Resources/Public/Icons/WizardIcon.png',
-			'title' => $GLOBALS['LANG']->getLLL('pi2_title', $LL),
-			'description' => $GLOBALS['LANG']->getLLL('pi2_plus_wiz_description', $LL),
-			'params' => '&defVals[tt_content][CType]=displaycontroller_pi2'
-		);
+        $wizardItems['plugins_tx_displaycontroller_pi2'] = array(
+                'icon' => ExtensionManagementUtility::extRelPath('displaycontroller') . 'Resources/Public/Icons/WizardIcon.png',
+                'title' => $GLOBALS['LANG']->getLLL('pi2_title', $LL),
+                'description' => $GLOBALS['LANG']->getLLL('pi2_plus_wiz_description', $LL),
+                'params' => '&defVals[tt_content][CType]=displaycontroller_pi2'
+        );
 
-		return $wizardItems;
-	}
+        return $wizardItems;
+    }
 
-	/**
-	 * Reads the [extDir]/locallang.xml and returns the $LOCAL_LANG array found in that file.
-	 *
-	 * @return array The array with language labels
-	 */
-	function includeLocalLang()	{
-		$llFile = ExtensionManagementUtility::extPath('displaycontroller') . 'locallang.xml';
-		/** @var \TYPO3\CMS\Core\Localization\Parser\LocallangXmlParser $l10nParser */
-		$l10nParser = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Localization\\Parser\\LocallangXmlParser');
-		$LOCAL_LANG = $l10nParser->getParsedData($llFile, $GLOBALS['LANG']->lang);
+    /**
+     * Reads the [extDir]/locallang.xml and returns the $LOCAL_LANG array found in that file.
+     *
+     * @return array The array with language labels
+     */
+    protected function includeLocalLang()
+    {
+        $llFile = ExtensionManagementUtility::extPath('displaycontroller') . 'locallang.xml';
+        /** @var LocallangXmlParser $l10nParser */
+        $l10nParser = GeneralUtility::makeInstance(LocallangXmlParser::class);
+        $LOCAL_LANG = $l10nParser->getParsedData($llFile, $GLOBALS['LANG']->lang);
 
-		return $LOCAL_LANG;
-	}
+        return $LOCAL_LANG;
+    }
 }

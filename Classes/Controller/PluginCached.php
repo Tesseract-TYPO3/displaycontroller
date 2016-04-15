@@ -21,7 +21,8 @@ namespace Tesseract\Displaycontroller\Controller;
  * @package TYPO3
  * @subpackage tx_displaycontroller
  */
-class PluginCached extends DisplayController {
-	public $scriptRelPath	= 'Classes/Controller/PluginCached.php';	// Path to this script relative to the extension dir.
-	public $pi_checkCHash	= TRUE;
+class PluginCached extends DisplayController
+{
+    public $scriptRelPath = 'Classes/Controller/PluginCached.php';    // Path to this script relative to the extension dir.
+    public $pi_checkCHash = true;
 }
