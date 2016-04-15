@@ -93,7 +93,3 @@ if (!isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$_EXTKEY]['consumers'])) {
 		'className' => 'Tesseract\\Displaycontroller\\Service\\ControllerService',
 	)
 );
-
-// Register the function to preview data with TCEmain hook
-// @todo: check for removal in TYPO3 CMS 7 now that this feature is built into the Core
-$GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['tx_displaycontroller'] = 'Tesseract\\Displaycontroller\\Hook\\DataHandlerHook';

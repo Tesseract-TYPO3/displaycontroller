@@ -1,6 +1,7 @@
 2016-04-15 Francois Suter (Cobweb)  <typo3@cobweb.ch>
 
 	* Applied PSR-2 and cleaned up code, resolves #75653
+	* Removed custom preview mechanism (rely on Core), resolves #75658
 
 2016-02-02 Francois Suter (Cobweb)  <typo3@cobweb.ch>
 
