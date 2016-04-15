@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-04-15T10:28:24Z" product-name="displaycontroller">
+		<header/>
+		<body>
+			<trans-unit id="tt_content.CType_pi1" xml:space="preserve">
+				<source>Display Controller (cached)</source>
+			</trans-unit>
+			<trans-unit id="tt_content.CType_pi2" xml:space="preserve">
+				<source>Display Controller (not cached)</source>
+			</trans-unit>
+			<trans-unit id="tt_content.CType_pi1.description" xml:space="preserve">
+				<source>Simple FE plugin for displaying output of Tesseract components. Stored into page cache.</source>
+			</trans-unit>
+			<trans-unit id="tt_content.CType_pi2.description" xml:space="preserve">
+				<source>Simple FE plugin for displaying output of Tesseract components. Not stored into page cache.</source>
+			</trans-unit>
+			<trans-unit id="tabs.dataobjects" xml:space="preserve">
+				<source>Data Objects</source>
+			</trans-unit>
+			<trans-unit id="tabs_options" xml:space="preserve">
+				<source>Options</source>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_displaycontroller_provider" xml:space="preserve">
+				<source>Primary Data Provider</source>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_displaycontroller_provider2" xml:space="preserve">
+				<source>Secondary Data Provider</source>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_displaycontroller_consumer" xml:space="preserve">
+				<source>Data Consumer</source>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_displaycontroller_filtertype.I.0" xml:space="preserve">
+				<source>None</source>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_displaycontroller_filtertype.I.1" xml:space="preserve">
+				<source>Detail view</source>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_displaycontroller_filtertype.I.2" xml:space="preserve">
+				<source>List view</source>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_displaycontroller_filtertype.I.3" xml:space="preserve">
+				<source>Advanced filter (choose Data Filter below)</source>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_displaycontroller_filtertype" xml:space="preserve">
+				<source>Type of filter</source>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_displaycontroller_datafilter" xml:space="preserve">
+				<source>Advanced Data Filter (primary)</source>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_displaycontroller_datafilter2" xml:space="preserve">
+				<source>Advanced Data Filter (secondary)</source>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_displaycontroller_emptyfilter" xml:space="preserve">
+				<source>If filter empty</source>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_displaycontroller_emptyfilter.I.0" xml:space="preserve">
+				<source>Display nothing</source>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_displaycontroller_emptyfilter.I.1" xml:space="preserve">
+				<source>Display everything</source>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_displaycontroller_emptyprovider2" xml:space="preserve">
+				<source>If secondary provider returns nothing</source>
+			</trans-unit>
+			<trans-unit id="wizards.edit_datafilter" xml:space="preserve">
+				<source>Edit Data Filter</source>
+			</trans-unit>
+			<trans-unit id="wizards.edit_dataprovider" xml:space="preserve">
+				<source>Edit Data Provider</source>
+			</trans-unit>
+			<trans-unit id="wizards.edit_dataconsumer" xml:space="preserve">
+				<source>Edit Data Consumer</source>
+			</trans-unit>
+			<trans-unit id="options_tab_general" xml:space="preserve">
+				<source>General</source>
+			</trans-unit>
+			<trans-unit id="options_debug" xml:space="preserve">
+				<source>Debug</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

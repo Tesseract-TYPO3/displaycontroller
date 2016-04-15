@@ -49,13 +49,13 @@ class PluginCachedWizard
     }
 
     /**
-     * Reads the [extDir]/locallang.xml and returns the $LOCAL_LANG array found in that file.
+     * Reads the locallang file and returns the $LOCAL_LANG array found in that file.
      *
      * @return array The array with language labels
      */
     protected function includeLocalLang()
     {
-        $llFile = ExtensionManagementUtility::extPath('displaycontroller') . 'locallang.xml';
+        $llFile = ExtensionManagementUtility::extPath('displaycontroller') . 'Resources/Private/Language/locallang.xlf';
         /** @var LocallangXmlParser $l10nParser */
         $l10nParser = GeneralUtility::makeInstance(LocallangXmlParser::class);
         $LOCAL_LANG = $l10nParser->getParsedData($llFile, $GLOBALS['LANG']->lang);

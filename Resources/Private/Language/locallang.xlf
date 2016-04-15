@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-04-15T10:28:08Z" product-name="displaycontroller">
+		<header/>
+		<body>
+			<trans-unit id="debugging" xml:space="preserve">
+				<source>Debugging</source>
+			</trans-unit>
+			<trans-unit id="saveAndViewAction" xml:space="preserve">
+				<source>Act on save and view: if this is activated, the Display Controller will try to show a preview of the saved record in the frontend (requires additional TSconfig, please refer to the manual).</source>
+			</trans-unit>
+			<trans-unit id="config_debug" xml:space="preserve">
+				<source>Debug: Choose debug settings. Debugging output can be directed to the controller's output (e.g. the frontend), to the Developer's Log (requires an extension like &quot;devlog&quot;) or both.</source>
+			</trans-unit>
+			<trans-unit id="config_debug.none" xml:space="preserve">
+				<source>None</source>
+			</trans-unit>
+			<trans-unit id="config_debug.output" xml:space="preserve">
+				<source>To output</source>
+			</trans-unit>
+			<trans-unit id="config_debug.devlog" xml:space="preserve">
+				<source>To Developer's Log</source>
+			</trans-unit>
+			<trans-unit id="config_debug.both" xml:space="preserve">
+				<source>To both</source>
+			</trans-unit>
+			<trans-unit id="minDebugLevel" xml:space="preserve">
+				<source>Minimum level for debugging: Messages with a severity below the chosen limit will not be logged. This helps avoid clogging the output.</source>
+			</trans-unit>
+			<trans-unit id="minDebugLevel.ok" xml:space="preserve">
+				<source>Success</source>
+			</trans-unit>
+			<trans-unit id="minDebugLevel.info" xml:space="preserve">
+				<source>Information</source>
+			</trans-unit>
+			<trans-unit id="minDebugLevel.notice" xml:space="preserve">
+				<source>Notice</source>
+			</trans-unit>
+			<trans-unit id="minDebugLevel.warning" xml:space="preserve">
+				<source>Warning</source>
+			</trans-unit>
+			<trans-unit id="minDebugLevel.error" xml:space="preserve">
+				<source>Error</source>
+			</trans-unit>
+			<trans-unit id="debugger" xml:space="preserve">
+				<source>Debug output class: Enter a class name to replace the default debugging output class. The class must be autoloaded and extend tx_displaycontroller_debugger.</source>
+			</trans-unit>
+			<trans-unit id="exception.no_component" xml:space="preserve">
+				<source>No component of type %1$s and level %2$d found.</source>
+			</trans-unit>
+			<trans-unit id="exception.no_provider" xml:space="preserve">
+				<source>No provider defined.</source>
+			</trans-unit>
+			<trans-unit id="exception.no_filter" xml:space="preserve">
+				<source>No data filter found.</source>
+			</trans-unit>
+			<trans-unit id="exception.incompatible_providers" xml:space="preserve">
+				<source>Incompatible structures between primary and secondary providers.</source>
+			</trans-unit>
+			<trans-unit id="error.no_primary_provider" xml:space="preserve">
+				<source>Primary Data Provider not found</source>
+			</trans-unit>
+			<trans-unit id="error.primary_filter" xml:space="preserve">
+				<source>Primary Data Filter not found</source>
+			</trans-unit>
+			<trans-unit id="error.no_secondary_provider" xml:space="preserve">
+				<source>Secondary Data Provider not found</source>
+			</trans-unit>
+			<trans-unit id="error.get_filter" xml:space="preserve">
+				<source>Error getting filter.</source>
+			</trans-unit>
+			<trans-unit id="error.primary_provider_interrupt" xml:space="preserve">
+				<source>Primary provider set passStructure to false</source>
+			</trans-unit>
+			<trans-unit id="error.secondary_provider_interrupt" xml:space="preserve">
+				<source>Secondary provider set passStructure to false</source>
+			</trans-unit>
+			<trans-unit id="error.incompatible_provider_consumer" xml:space="preserve">
+				<source>Incompatible structures between primary provider and consumer.</source>
+			</trans-unit>
+			<trans-unit id="error.no_consumer" xml:space="preserve">
+				<source>Data Consumer not found</source>
+			</trans-unit>
+			<trans-unit id="error.no_custom_debugger" xml:space="preserve">
+				<source>Custom debugger not found</source>
+			</trans-unit>
+			<trans-unit id="error.no_custom_debugger_info" xml:space="preserve">
+				<source>Falling back on default. Install the appropriate extension or update the extension configuration.</source>
+			</trans-unit>
+			<trans-unit id="info.primary_filter" xml:space="preserve">
+				<source>Primary filter</source>
+			</trans-unit>
+			<trans-unit id="info.secondary_filter" xml:space="preserve">
+				<source>Secondary filter</source>
+			</trans-unit>
+			<trans-unit id="info.calculated_filter" xml:space="preserve">
+				<source>Calculated filter structure</source>
+			</trans-unit>
+			<trans-unit id="pi1_title" xml:space="preserve">
+				<source>Display Controller (cached)</source>
+			</trans-unit>
+			<trans-unit id="pi1_plus_wiz_description" xml:space="preserve">
+				<source>Create a fully-cached Display Controller.</source>
+			</trans-unit>
+			<trans-unit id="pi2_title" xml:space="preserve">
+				<source>Display Controller (not cached)</source>
+			</trans-unit>
+			<trans-unit id="pi2_plus_wiz_description" xml:space="preserve">
+				<source>Create a non-cached Display Controller. This should be chosen only if needed, for example in case of a search function.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
