@@ -27,7 +27,7 @@ Standard Display Controller
 		  tesseract, controller, components, frontend, plugin
 
 	:Copyright:
-		  2007-2015
+		  2007-2016
 
 	:Author:
 		  François Suter (Cobweb)
