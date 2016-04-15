@@ -3,18 +3,6 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-// Add FlexForm options for both controllers
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
-	'*',
-	'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForm/Options.xml',
-	$_EXTKEY . '_pi1'
-);
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
-	'*',
-	'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForm/Options.xml',
-	$_EXTKEY . '_pi2'
-);
-
 // Add context sensitive help (csh) for the new fields
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
 	'tt_content',
@@ -23,14 +11,20 @@ if (!defined ('TYPO3_MODE')) {
 
 $extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY);
 $extensionRelativePath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY);
-$typeIcon = $extensionRelativePath . 'Resources/Public/Icons/TypeIcon.png';
-// Register icon with sprite manager
-$icons = array(
-	'type-controller' => $typeIcon
+
+// Register icons for content element type
+/** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
+$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
+$iconRegistry->registerIcon(
+        'tx_displaycontroller-content-element',
+        \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+        [
+            'source' => 'EXT:displaycontroller/Resources/Public/Icons/TypeIcon.png'
+        ]
 );
-\TYPO3\CMS\Backend\Sprite\SpriteManager::addSingleIcons($icons, $_EXTKEY);
 
 // Register plug-ins (pi1 is cached, pi2 is not cached)
+$typeIcon = $extensionRelativePath . 'Resources/Public/Icons/TypeIcon.png';
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
 	array(
 		'LLL:EXT:displaycontroller/Resources/Private/Language/locallang_db.xlf:tt_content.CType_pi1',
