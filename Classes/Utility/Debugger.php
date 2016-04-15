@@ -26,116 +26,119 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package TYPO3
  * @subpackage tx_displaycontroller
  */
-class Debugger implements SingletonInterface {
-	/**
-	 * @var PageRenderer Reference to the current page renderer object
-	 */
-	protected $pageRenderer;
+class Debugger implements SingletonInterface
+{
+    /**
+     * @var PageRenderer Reference to the current page renderer object
+     */
+    protected $pageRenderer;
 
-	/**
-	 * @var bool Flag to control output of unique content
-	 */
-	protected $firstCall = TRUE;
+    /**
+     * @var bool Flag to control output of unique content
+     */
+    protected $firstCall = true;
 
-	/**
-	 * @var string Inline CSS code
-	 */
-	protected $cssCode = '';
+    /**
+     * @var string Inline CSS code
+     */
+    protected $cssCode = '';
 
-	/**
-	 * @var string Path to debug script
-	 */
-	protected $jsFile;
+    /**
+     * @var string Path to debug script
+     */
+    protected $jsFile;
 
-	/**
-	 * @var array Flash message class names
-	 */
-	protected $severityClasses;
+    /**
+     * @var array Flash message class names
+     */
+    protected $severityClasses;
 
-	public function __construct(PageRenderer $pageRenderer) {
-		$this->pageRenderer = $pageRenderer;
-		$extensionRelativePath = ExtensionManagementUtility::extRelPath('displaycontroller');
-		// Load the relevant CSS and JS files (making sure they are not concatenated)
-		$pageRenderer->addCssFile(
-			$extensionRelativePath . 'Resources/Public/Styles/font-awesome/css/font-awesome.min.css',
-			'stylesheet',
-			'screen',
-			'',
-			FALSE,
-			FALSE,
-			'',
-			TRUE
-		);
-		$pageRenderer->addCssFile(
-			$extensionRelativePath . 'Resources/Public/Styles/Debugger.css',
-			'stylesheet',
-			'screen',
-			'',
-			FALSE,
-			FALSE,
-			'',
-			TRUE
-		);
-		$pageRenderer->addJsFile(
-			$extensionRelativePath . 'Resources/Public/JavaScript/Debugger.js',
-			'text/javascript',
-			FALSE,
-			FALSE,
-			'',
-			TRUE
-		);
-	}
+    public function __construct(PageRenderer $pageRenderer)
+    {
+        $this->pageRenderer = $pageRenderer;
+        $extensionRelativePath = ExtensionManagementUtility::extRelPath('displaycontroller');
+        // Load the relevant CSS and JS files (making sure they are not concatenated)
+        $pageRenderer->addCssFile(
+                $extensionRelativePath . 'Resources/Public/Styles/font-awesome/css/font-awesome.min.css',
+                'stylesheet',
+                'screen',
+                '',
+                false,
+                false,
+                '',
+                true
+        );
+        $pageRenderer->addCssFile(
+                $extensionRelativePath . 'Resources/Public/Styles/Debugger.css',
+                'stylesheet',
+                'screen',
+                '',
+                false,
+                false,
+                '',
+                true
+        );
+        $pageRenderer->addJsFile(
+                $extensionRelativePath . 'Resources/Public/JavaScript/Debugger.js',
+                'text/javascript',
+                false,
+                false,
+                '',
+                true
+        );
+    }
 
-	/**
-	 * Renders all messages and dumps their related data.
-	 *
-	 * @param array $messageQueue List of messages to display
-	 * @return string Debug output
-	 */
-	public function render(array $messageQueue) {
-		$debugOutput = '';
-		if (count($messageQueue) > 0) {
-			// Prepare the output and return it
-			$icons = '';
-			foreach ($messageQueue as $messageData) {
-				/** @var \TYPO3\CMS\Core\Messaging\FlashMessage $messageObject */
-				$messageObject = $messageData['message'];
-				// Choose the display classes and the log method based on severity
-				$logMethod = 'log';
-				switch ($messageObject->getSeverity()) {
-					case 2:
-						$logMethod = 'error';
-						$classes = 'debug-message debug-error fa fa-times-circle';
-						break;
-					case 1:
-						$logMethod = 'warn';
-						$classes = 'debug-message debug-warning fa fa-exclamation-triangle';
-						break;
-					case 0:
-						$classes = 'debug-message debug-success fa fa-check-circle';
-						break;
-					case -1:
-						$classes = 'debug-message debug-info fa fa-info-circle';
-						break;
-					default:
-						$classes = 'debug-message debug-note fa fa-comment';
-				}
+    /**
+     * Renders all messages and dumps their related data.
+     *
+     * @param array $messageQueue List of messages to display
+     * @return string Debug output
+     */
+    public function render(array $messageQueue)
+    {
+        $debugOutput = '';
+        if (count($messageQueue) > 0) {
+            // Prepare the output and return it
+            $icons = '';
+            foreach ($messageQueue as $messageData) {
+                /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $messageObject */
+                $messageObject = $messageData['message'];
+                // Choose the display classes and the log method based on severity
+                $logMethod = 'log';
+                switch ($messageObject->getSeverity()) {
+                    case 2:
+                        $logMethod = 'error';
+                        $classes = 'debug-message debug-error fa fa-times-circle';
+                        break;
+                    case 1:
+                        $logMethod = 'warn';
+                        $classes = 'debug-message debug-warning fa fa-exclamation-triangle';
+                        break;
+                    case 0:
+                        $classes = 'debug-message debug-success fa fa-check-circle';
+                        break;
+                    case -1:
+                        $classes = 'debug-message debug-info fa fa-info-circle';
+                        break;
+                    default:
+                        $classes = 'debug-message debug-note fa fa-comment';
+                }
 
-				// Prepare the output, as a clickable icon and a message
-				$label = '<p><strong>' . $messageObject->getTitle() . '</strong>: ' . $messageObject->getMessage() . '</p>';
-				$debugLink = '
+                // Prepare the output, as a clickable icon and a message
+                $label = '<p><strong>' . $messageObject->getTitle() . '</strong>: ' . $messageObject->getMessage() . '</p>';
+                $debugLink = '
 					<i class="' . $classes . '"' .
-					' data-debug="' . urlencode(json_encode($messageData['data'])) . '"' .
-					' data-debug-header="' . addslashes($messageObject->getTitle() . ': ' . $messageObject->getMessage()) . '"' .
-					' data-method="' . $logMethod . '"' .
-					' onclick="DisplaycontrollerDebugger.dumpDebugData()"></i>
+                        ' data-debug="' . urlencode(json_encode($messageData['data'])) . '"' .
+                        ' data-debug-header="' . addslashes($messageObject->getTitle() . ': ' . $messageObject->getMessage()) . '"' .
+                        ' data-method="' . $logMethod . '"' .
+                        ' onclick="DisplaycontrollerDebugger.dumpDebugData()"></i>
 				';
-				$icons .= '<div class="icon-group">' . $debugLink . $label . '</div>';
-			}
-			// Wrap all the icons
-			$debugOutput .= '<div class="tx_displaycontroller_debug">' . $icons . '</div>';
-		}
+                $icons .= '<div class="icon-group">' . $debugLink . $label . '</div>';
+            }
+            // Wrap all the icons
+            $debugOutput .= '<div class="tx_displaycontroller_debug">' . $icons . '</div>';
+        }
 
-		return $debugOutput;
-	}
+        return $debugOutput;
+    }
 }

@@ -55,7 +55,7 @@ $icons = array(
 );
 
 // Register wizards for plug-ins
-if (TYPO3_MODE == 'BE') {
+if (TYPO3_MODE === 'BE') {
 	$GLOBALS['TBE_MODULES_EXT']['xMOD_db_new_content_el']['addElClasses']['Tesseract\\Displaycontroller\\Controller\\PluginCachedWizard'] = $extensionPath . 'Classes/Wizard/PluginCachedWizard.php';
 	$GLOBALS['TBE_MODULES_EXT']['xMOD_db_new_content_el']['addElClasses']['Tesseract\\Displaycontroller\\Controller\\PluginNotCachedWizard'] = $extensionPath . 'Classes/Wizard/PluginNotCachedWizard.php';
 }
