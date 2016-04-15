@@ -4,7 +4,6 @@ if (!defined ('TYPO3_MODE')) {
 }
 
 // Add FlexForm options for both controllers
-// @todo: check if this can be moved safely to Configuration/TCA/Overrides
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
 	'*',
 	'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForm/Options.xml',
