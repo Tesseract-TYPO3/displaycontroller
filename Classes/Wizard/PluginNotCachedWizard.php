@@ -36,30 +36,13 @@ class PluginNotCachedWizard
      */
     public function proc($wizardItems)
     {
-        $LL = $this->includeLocalLang();
-
         $wizardItems['plugins_tx_displaycontroller_pi2'] = array(
                 'icon' => ExtensionManagementUtility::extRelPath('displaycontroller') . 'Resources/Public/Icons/WizardIcon.png',
-                'title' => $GLOBALS['LANG']->getLLL('pi2_title', $LL),
-                'description' => $GLOBALS['LANG']->getLLL('pi2_plus_wiz_description', $LL),
+                'title' => $GLOBALS['LANG']->sL('LLL:EXT:displaycontroller/Resources/Private/Language/locallang.xlf:pi2_title'),
+                'description' => $GLOBALS['LANG']->sL('LLL:EXT:displaycontroller/Resources/Private/Language/locallang.xlf:pi2_plus_wiz_description'),
                 'params' => '&defVals[tt_content][CType]=displaycontroller_pi2'
         );
 
         return $wizardItems;
-    }
-
-    /**
-     * Reads the locallang file and returns the $LOCAL_LANG array found in that file.
-     *
-     * @return array The array with language labels
-     */
-    protected function includeLocalLang()
-    {
-        $llFile = ExtensionManagementUtility::extPath('displaycontroller') . 'Resources/Private/Language/locallang.xlf';
-        /** @var LocallangXmlParser $l10nParser */
-        $l10nParser = GeneralUtility::makeInstance(LocallangXmlParser::class);
-        $LOCAL_LANG = $l10nParser->getParsedData($llFile, $GLOBALS['LANG']->lang);
-
-        return $LOCAL_LANG;
     }
 }
