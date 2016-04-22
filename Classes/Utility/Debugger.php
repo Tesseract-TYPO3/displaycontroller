@@ -56,10 +56,9 @@ class Debugger implements SingletonInterface
     public function __construct(PageRenderer $pageRenderer)
     {
         $this->pageRenderer = $pageRenderer;
-        $extensionRelativePath = ExtensionManagementUtility::extRelPath('displaycontroller');
         // Load the relevant CSS and JS files (making sure they are not concatenated)
         $pageRenderer->addCssFile(
-                $extensionRelativePath . 'Resources/Public/Styles/font-awesome/css/font-awesome.min.css',
+                GeneralUtility::locationHeaderUrl('typo3conf/ext/displaycontroller/Resources/Public/Styles/font-awesome/css/font-awesome.min.css'),
                 'stylesheet',
                 'screen',
                 '',
@@ -69,7 +68,7 @@ class Debugger implements SingletonInterface
                 true
         );
         $pageRenderer->addCssFile(
-                $extensionRelativePath . 'Resources/Public/Styles/Debugger.css',
+                GeneralUtility::locationHeaderUrl('typo3conf/ext/displaycontroller/Resources/Public/Styles/Debugger.css'),
                 'stylesheet',
                 'screen',
                 '',
@@ -79,7 +78,7 @@ class Debugger implements SingletonInterface
                 true
         );
         $pageRenderer->addJsFile(
-                $extensionRelativePath . 'Resources/Public/JavaScript/Debugger.js',
+                GeneralUtility::locationHeaderUrl('typo3conf/ext/displaycontroller/Resources/Public/JavaScript/Debugger.js'),
                 'text/javascript',
                 false,
                 false,
