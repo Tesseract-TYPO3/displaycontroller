@@ -126,9 +126,10 @@ class DisplayController extends PluginControllerBase
      *
      * NOTE: TypoScript override of language labels is not implemented.
      *
+     * @param string $languageFilePath path to the plugin language file in format EXT:....
      * @return void
      */
-    public function pi_loadLL()
+    public function pi_loadLL($languageFilePath = '')
     {
         /** @var $languageFactory LocalizationFactory */
         $languageFactory = GeneralUtility::makeInstance(LocalizationFactory::class);
@@ -891,7 +892,7 @@ class DisplayController extends PluginControllerBase
             if ($debugger === null || !($debugger instanceof Debugger)) {
                 $debugger = GeneralUtility::makeInstance(
                         Debugger::class,
-                        $GLOBALS['TSFE']->getPageRenderer()
+                        GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class)
                 );
             }
             $output = $debugger->render($this->messageQueue);

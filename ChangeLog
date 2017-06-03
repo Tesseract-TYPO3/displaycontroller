@@ -1,3 +1,8 @@
+2017-06-03 Francois Suter (Cobweb)  <typo3@cobweb.ch>
+
+	* Verified compatibility with TYPO3 v8
+	* Replaced new content element wizard classes with PageTS
+
 2016-04-22 Francois Suter (Cobweb)  <typo3@cobweb.ch>
 
 	* Fixed path to debugger resources, resolves #75872

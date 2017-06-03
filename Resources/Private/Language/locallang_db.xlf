@@ -15,6 +15,7 @@
 			<trans-unit id="tt_content.CType_pi2.description" xml:space="preserve">
 				<source>Simple FE plugin for displaying output of Tesseract components. Not stored into page cache.</source>
 			</trans-unit>
+
 			<trans-unit id="tabs.dataobjects" xml:space="preserve">
 				<source>Data Objects</source>
 			</trans-unit>

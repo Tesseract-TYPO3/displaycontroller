@@ -96,6 +96,10 @@
 			<trans-unit id="info.calculated_filter" xml:space="preserve">
 				<source>Calculated filter structure</source>
 			</trans-unit>
+
+			<trans-unit id="tesseract" xml:space="preserve">
+				<source>Tesseract</source>
+			</trans-unit>
 			<trans-unit id="pi1_title" xml:space="preserve">
 				<source>Display Controller (cached)</source>
 			</trans-unit>
