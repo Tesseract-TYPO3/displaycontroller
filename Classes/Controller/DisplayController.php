@@ -787,7 +787,7 @@ class DisplayController extends PluginControllerBase
         }
     }
 
-    // Override tx_tesseract_pidatacontroller_output interface methods
+    // Override \Tesseract\Tesseract\Component\DataControllerOutputInterface interface methods
 
     /**
      * Adds a debugging message to the controller's internal message queue
@@ -849,8 +849,12 @@ class DisplayController extends PluginControllerBase
                             $extraData = array($debugData);
                         }
                     }
-                    GeneralUtility::devLog($flashMessage->getTitle() . ': ' . $flashMessage->getMessage(), $key, $level,
-                            $extraData);
+                    GeneralUtility::devLog(
+                            $flashMessage->getTitle() . ': ' . $flashMessage->getMessage(),
+                            $key,
+                            $level,
+                            $extraData
+                    );
                 }
             }
         }
